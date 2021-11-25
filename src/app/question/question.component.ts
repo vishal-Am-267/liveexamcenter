@@ -12,6 +12,8 @@ export class QuestionComponent implements OnInit {
 
   topicType:any = []
   topicArray:any = []
+  questionResult:any = []
+  selectedQuestionArray:any = []
   constructor(private _questions: ManageQuestionsService) { }
 
   ngOnInit(): void {
@@ -20,6 +22,14 @@ export class QuestionComponent implements OnInit {
       this.topicArray = this.topicType.result
       console.log(this.topicArray)
      
+    })
+  }
+
+  questionListTopicWise(){
+    this._questions.getQuestionTopicWise(this.selectedTopic).subscribe((result)=>{
+      this.questionResult = result
+      this.selectedQuestionArray = this.questionResult.result
+      console.log(this.selectedQuestionArray) 
     })
   }
 

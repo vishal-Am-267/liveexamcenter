@@ -8,6 +8,7 @@ export class ManageQuestionsService {
   subject_url = 'http://admin.liveexamcenter.in/api/subjects?term='
   topic_url = 'https://admin.liveexamcenter.in/api/topics/subject'
   allTopic_url = 'http://admin.liveexamcenter.in/api/topics?page=1&limit=9007199254740991&term='
+  topicWiseQuestion_url = 'http://admin.liveexamcenter.in/api/questions?page=1&limit=20&term=&topic='
   constructor(private _http: HttpClient) { }
 
   getSubjectList() {
@@ -26,6 +27,11 @@ export class ManageQuestionsService {
   getAllTopic(){
     const headers = { 'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTljZTRhOGU1ODY4NTE0NjEwYzhkYTUiLCJfYWN0aXZlT3JnIjoiNjE5Y2U0YThlNTg2ODUxNDYxMGM4ZGE3IiwiaWF0IjoxNjM3ODE1Mzc3LCJleHAiOjE2Mzc4NTg1Nzd9.KlT99CO5QtzPuyTr50BBpbnda3ET5UEFf4dJpjFCvCM' }
     return this._http.get(this.allTopic_url, {headers})
+  }
+
+  getQuestionTopicWise(id: any){
+    const headers = { 'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTljZTRhOGU1ODY4NTE0NjEwYzhkYTUiLCJfYWN0aXZlT3JnIjoiNjE5Y2U0YThlNTg2ODUxNDYxMGM4ZGE3IiwiaWF0IjoxNjM3ODE1Mzc3LCJleHAiOjE2Mzc4NTg1Nzd9.KlT99CO5QtzPuyTr50BBpbnda3ET5UEFf4dJpjFCvCM' }
+    return this._http.get(`${this.topicWiseQuestion_url}${id}`, {headers})
   }
 
 }
