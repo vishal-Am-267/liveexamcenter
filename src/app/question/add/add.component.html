@@ -1,8 +1,9 @@
 <div class="container mt-5">
     <div class="card">
         <div class="card-header pb-3">Add Question</div>
+        <form action="">
         <div class="card-body">
-
+           
             <div class="row">
                 <div class="col">
                     <label class="form-label">Select Subject</label>
@@ -53,62 +54,30 @@
                 <a style="color: grey; cursor: pointer;" (click)="changeEditor()" #enable>Enable rich editor</a>
 
             </div>
-
-            <div class="row">
-                <label class="form-label">Options</label>
-                <div class="col input-group mb-3">
-
-                    <div class="input-group-text col-1">
-                        <input class="form-check-input " type="radio" value=""
-                            aria-label="Radio button for following text input">
-                    </div>
-                    <textarea class="form-control" aria-label="With textarea" rows="4"></textarea>
-
-                </div>
-                <small style="color: grey;" >enable rich editor</small>
-
-                <div class="col input-group mb-3">
+            <label class="form-label">Options</label>
+            <div class="row" *ngFor = "let obj of optionArray; let i = index">
+                
+                <div class="col input-group mb-3" >
 
                     <div class="input-group-text col-1">
-                        <input class="form-check-input " type="radio" value=""
-                            aria-label="Radio button for following text input" >
+                        <input class="form-check-input me-1 px-2" type="radio" value="" name="isSelected{{i}}" [(ngModel)]="obj.isSelected"
+                            aria-label="Radio button for following text input"> Option {{i + 1}}
                     </div>
-                    <textarea class="form-control" aria-label="With textarea" rows="4"></textarea>
-
+                    <textarea class="form-control" aria-label="With textarea" rows="4" name="option{{i}}" [(ngModel)]="obj.option"></textarea>
+                    
                 </div>
-                <small style="color: grey;">enable rich editor</small>
-
-                <div class="col input-group mb-3">
-
-                    <div class="input-group-text col-1">
-                        <input class="form-check-input " type="radio" value=""
-                            aria-label="Radio button for following text input">
-                    </div>
-                    <textarea class="form-control" aria-label="With textarea" rows="4"></textarea>
-
-                </div>
-                <small style="color: grey;">enable rich editor</small>
-
-                <div class="col input-group mb-3">
-
-                    <div class="input-group-text col-1">
-                        <input class="form-check-input " type="radio" value=""
-                            aria-label="Radio button for following text input">
-                    </div>
-                    <textarea class="form-control" aria-label="With textarea" rows="4"></textarea>
-
-                </div>
-                <small style="color: grey;">enable rich editor</small>
+                <span style="color: grey;" >enable rich editor  </span>
+                <a style="color: grey; cursor: pointer;" (click)="removeOption(i)" >Remove option</a>
+               
             </div>
 
-            <button class="btn  float-start mt-3" [routerLink]="['/question/add']"
-                routerLinkActive="router-link-active"
-                style="border: none; color: rgb(46, 170, 237); ">
+            <button class="btn  float-start mt-3" 
+                style="border: none; color: rgb(46, 170, 237); " (click)="addOption()">
                 <span><i class='bx bx-plus-medical' style='color:rgb(46, 170, 237);'></i></span>
                 Add Option</button>
 
         </div>
-        <div class="card-footer">
+        <div class="card-footer mt-5">
             <button class="btn btn-primary float-start" [routerLink]="['/question/add']" routerLinkActive="router-link-active" >
                
                Save Question</button>
@@ -116,5 +85,6 @@
                
                 Cancel</button>
         </div>
+    </form>
     </div>
 </div>

@@ -12,13 +12,13 @@ export class ManageQuestionsService {
 
   getSubjectList() {
     //GET : fetching all the detail from API
-    const headers = { 'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTljZTRhOGU1ODY4NTE0NjEwYzhkYTUiLCJfYWN0aXZlT3JnIjoiNjE5Y2U0YThlNTg2ODUxNDYxMGM4ZGE3IiwiaWF0IjoxNjM3NzI4Nzc5LCJleHAiOjE2Mzc3NzE5Nzl9.zpoFC5x95LY8BGz3KIyEnbajef_8p85CqyG1FvtnKb8' }
+    const headers = { 'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTljZTRhOGU1ODY4NTE0NjEwYzhkYTUiLCJfYWN0aXZlT3JnIjoiNjE5Y2U0YThlNTg2ODUxNDYxMGM4ZGE3IiwiaWF0IjoxNjM3ODE1Mzc3LCJleHAiOjE2Mzc4NTg1Nzd9.KlT99CO5QtzPuyTr50BBpbnda3ET5UEFf4dJpjFCvCM' }
     return this._http.get(this.subject_url, {headers})
 
   }
   
   getTopic(id : any){
-    const headers = { 'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTljZTRhOGU1ODY4NTE0NjEwYzhkYTUiLCJfYWN0aXZlT3JnIjoiNjE5Y2U0YThlNTg2ODUxNDYxMGM4ZGE3IiwiaWF0IjoxNjM3NzI4Nzc5LCJleHAiOjE2Mzc3NzE5Nzl9.zpoFC5x95LY8BGz3KIyEnbajef_8p85CqyG1FvtnKb8' }
+    const headers = { 'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTljZTRhOGU1ODY4NTE0NjEwYzhkYTUiLCJfYWN0aXZlT3JnIjoiNjE5Y2U0YThlNTg2ODUxNDYxMGM4ZGE3IiwiaWF0IjoxNjM3ODE1Mzc3LCJleHAiOjE2Mzc4NTg1Nzd9.KlT99CO5QtzPuyTr50BBpbnda3ET5UEFf4dJpjFCvCM' }
     return this._http.get(`${this.topic_url}/${id}`, {headers})
   }
 

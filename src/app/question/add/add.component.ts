@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { ManageQuestionsService } from 'src/app/manage-questions.service';
+import { options } from 'src/app/options';
 
 @Component({
   selector: 'app-add',
@@ -10,6 +11,9 @@ import { ManageQuestionsService } from 'src/app/manage-questions.service';
 export class AddComponent implements OnInit {
 
   @ViewChild('enable', {static: true}) enable! : ElementRef
+
+  options = new options()
+  optionArray:any = []
 
   changedEditor(event : EditorChangeContent | EditorChangeSelection){
 
@@ -41,6 +45,11 @@ export class AddComponent implements OnInit {
   constructor(private _questions: ManageQuestionsService) { }
 
   ngOnInit(): void {
+
+    this.optionArray.push(this.options)
+    this.optionArray.push(this.options)
+    this.optionArray.push(this.options)
+    this.optionArray.push(this.options)
     
     this._questions.getSubjectList().subscribe((res) =>{
       
@@ -63,6 +72,15 @@ export class AddComponent implements OnInit {
      this.isSelected = !this.isSelected 
      !this.isSelected ? this.enable.nativeElement.innerText = "disabled rich editor" : this.enable.nativeElement.innerText = "enabled rich editor"
      
+  }
+
+  addOption(){
+    this.options = new options()
+    this.optionArray.push(this.options)
+  }
+
+  removeOption(index: any){
+    this.optionArray.splice(index)
   }
 
 }
