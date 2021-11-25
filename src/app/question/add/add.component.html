@@ -2,89 +2,100 @@
     <div class="card">
         <div class="card-header pb-3">Add Question</div>
         <form action="">
-        <div class="card-body">
-           
-            <div class="row">
-                <div class="col">
-                    <label class="form-label">Select Subject</label>
-                    <ng-select [(ngModel)]="selectedSubject" class="col-md-4 form-control" style="border: none;" (change)="topicList()">
-                        <ng-option *ngFor="let subject of subjectArr" [value]="subject._id" > {{subject.name}}</ng-option>
-                    </ng-select>
-                </div>
-                <div class="col">
-                    <label class="form-label">Select Topics</label>
-                    <ng-select  class="col-md-4 form-control" style="border: none;">
-                        <ng-option *ngFor="let topic of topicArr" [value]="topic._id">{{topic.name}}</ng-option>
-                    </ng-select>
-                </div>
-            </div>
+            <div class="card-body">
 
-            <div class="row">
-                <div class="col">
-                    <label class="form-label">Question Type</label>
-                    <ng-select  class="col-md-4 form-control" style="border: none;">
-                        <ng-option *ngFor="let type of questionType" [value]="type.id"> {{type.name}}</ng-option>
-                    </ng-select>
-                </div>
-                <div class="col">
-                    <label class="form-label">Difficulty Level</label>
-                    <ng-select  class="col-md-4 form-control" style="border: none;">
-                        <ng-option *ngFor="let level of difficultyLevel" [value]="level.id">{{level.name}}</ng-option>
-                    </ng-select>
-                </div>
-                <div class="col">
-                    <label class="form-label">Right Marks</label>
-                    <input type="text" class="form-control" placeholder="First name" aria-label="First name">
-                </div>
-                <div class="col">
-                    <label class="form-label">Wrong Marks</label>
-                    <input type="text" class="form-control" placeholder="First name" aria-label="First name">
-                </div>
-            </div>
-
-            <div class="row">
-                <label class="form-label">Question</label>
-                <div class="col" *ngIf = "isSelected">
-                    
-                    <textarea class="form-control" aria-label="With textarea" rows="6"></textarea>
-                    
-                </div>
-
-                <quill-editor *ngIf = "!isSelected" [styles]="{height : '200px'}" (onEditorChanged) = "changedEditor($event)"></quill-editor>
-                <a style="color: grey; cursor: pointer;" (click)="changeEditor()" #enable>Enable rich editor</a>
-
-            </div>
-            <label class="form-label">Options</label>
-            <div class="row" *ngFor = "let obj of optionArray; let i = index">
-                
-                <div class="col input-group mb-3" >
-
-                    <div class="input-group-text col-1">
-                        <input class="form-check-input me-1 px-2" type="radio" value="" name="isSelected{{i}}" [(ngModel)]="obj.isSelected"
-                            aria-label="Radio button for following text input"> Option {{i + 1}}
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label">Select Subject</label>
+                        <ng-select [(ngModel)]="selectedSubject" name="selectedSubject" class="col-md-4 form-control"
+                            style="border: none;" (change)="topicList()">
+                            <ng-option *ngFor="let subject of subjectArr" [value]="subject._id"> {{subject.name}}
+                            </ng-option>
+                        </ng-select>
                     </div>
-                    <textarea class="form-control" aria-label="With textarea" rows="4" name="option{{i}}" [(ngModel)]="obj.option"></textarea>
-                    
+                
+                    <div class="col">
+                        <label class="form-label">Select Topics</label>
+                        <ng-select class="col-md-4 form-control" style="border: none;">
+                            <ng-option *ngFor="let topic of topicArr" [value]="topic._id">{{topic.name}}</ng-option>
+                        </ng-select>
+                    </div>
                 </div>
-                <span style="color: grey;" >enable rich editor  </span>
-                <a style="color: grey; cursor: pointer;" (click)="removeOption(i)" >Remove option</a>
-               
+
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label">Question Type</label>
+                        <ng-select class="col-md-4 form-control" style="border: none;">
+                            <ng-option *ngFor="let type of questionType" [value]="type.id"> {{type.name}}</ng-option>
+                        </ng-select>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Difficulty Level</label>
+                        <ng-select class="col-md-4 form-control" style="border: none;">
+                            <ng-option *ngFor="let level of difficultyLevel" [value]="level.id">{{level.name}}
+                            </ng-option>
+                        </ng-select>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Right Marks</label>
+                        <input type="text" class="form-control" placeholder="First name" aria-label="First name">
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Wrong Marks</label>
+                        <input type="text" class="form-control" placeholder="First name" aria-label="First name">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label class="form-label">Question</label>
+                    <div class="col" *ngIf="isSelected">
+
+                        <textarea class="form-control" aria-label="With textarea" rows="6"></textarea>
+
+                    </div>
+
+                    <quill-editor *ngIf="!isSelected" [styles]="{height : '200px'}"
+                        (onEditorChanged)="changedEditor($event)"></quill-editor>
+                    <a style="color: grey; cursor: pointer;" (click)="changeEditor()" #enable>Enable rich editor</a>
+
+                </div>
+                <label class="form-label">Options</label>
+                <div class="row" *ngFor="let obj of optionArray; let i = index">
+
+                    <div class="col input-group mb-3">
+
+                        <div class="input-group-text col-1">
+                            <input class="form-check-input me-1 px-2" type="radio" value="" 
+                                [(ngModel)]="obj.isSelected" id="{{i}}" name="isSelected{{i}}" aria-label="Radio button for following text input" (mouseover)="change($event)"> Option
+                            {{i + 1}}
+                        </div>
+                        <textarea *ngIf="isOptionSelected" class="form-control" aria-label="With textarea" rows="4"
+                            name="option{{i}}" [(ngModel)]="obj.option"></textarea>
+                            
+                        <quill-editor *ngIf="!isOptionSelected" [styles]="{height : '80px'}" name="option{{i}}"
+                            [(ngModel)]="obj.option" (onEditorChanged)="changedEditor($event)"></quill-editor>
+                    </div>
+                    <a style="color: grey; cursor: pointer;" (click)="changeOptionEditor($event, i)" >Enable rich
+                        editor </a>
+                    <a style="color: grey; cursor: pointer;" (click)="removeOption(i)">Remove option</a>
+
+                </div>
+
+                <button class="btn  float-start mt-3" style="border: none; color: rgb(46, 170, 237); "
+                    (click)="addOption()">
+                    <span><i class='bx bx-plus-medical' style='color:rgb(46, 170, 237);'></i></span>
+                    Add Option</button>
+
             </div>
+            <div class="card-footer mt-5">
+                <button class="btn btn-primary float-start" [routerLink]="['/question/add']"
+                    routerLinkActive="router-link-active">
 
-            <button class="btn  float-start mt-3" 
-                style="border: none; color: rgb(46, 170, 237); " (click)="addOption()">
-                <span><i class='bx bx-plus-medical' style='color:rgb(46, 170, 237);'></i></span>
-                Add Option</button>
+                    Save Question</button>
+                <button class="btn  mx-4" [routerLink]="['/question/add']" routerLinkActive="router-link-active">
 
-        </div>
-        <div class="card-footer mt-5">
-            <button class="btn btn-primary float-start" [routerLink]="['/question/add']" routerLinkActive="router-link-active" >
-               
-               Save Question</button>
-               <button class="btn  mx-4" [routerLink]="['/question/add']" routerLinkActive="router-link-active" >
-               
-                Cancel</button>
-        </div>
-    </form>
+                    Cancel</button>
+            </div>
+        </form>
     </div>
 </div>

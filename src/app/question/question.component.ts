@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ManageQuestionsService } from '../manage-questions.service';
 
 @Component({
   selector: 'app-question',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QuestionComponent implements OnInit {
 
-  constructor() { }
+  selectedTopic! : number
+
+  topicType:any = []
+  topicArray:any = []
+  constructor(private _questions: ManageQuestionsService) { }
 
   ngOnInit(): void {
+    this._questions.getAllTopic().subscribe((result)=>{
+      this.topicType = result
+      this.topicArray = this.topicType.result
+      console.log(this.topicArray)
+     
+    })
   }
 
 }

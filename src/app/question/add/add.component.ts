@@ -11,6 +11,7 @@ import { options } from 'src/app/options';
 export class AddComponent implements OnInit {
 
   @ViewChild('enable', {static: true}) enable! : ElementRef
+  @ViewChild('option', {static: true}) option! : ElementRef<HTMLInputElement>
 
   options = new options()
   optionArray:any = []
@@ -20,6 +21,7 @@ export class AddComponent implements OnInit {
   }
 
   isSelected = true
+  isOptionSelected = true
   result:any = []
   subjectArr:any = []
   topicArr:any =[]
@@ -73,6 +75,12 @@ export class AddComponent implements OnInit {
      !this.isSelected ? this.enable.nativeElement.innerText = "disabled rich editor" : this.enable.nativeElement.innerText = "enabled rich editor"
      
   }
+  changeOptionEditor(e : any, id : any){
+   
+    //  console.log(this.isOptionSelected)
+    this.isOptionSelected = !this.isOptionSelected 
+    !this.isOptionSelected ? e.target.innerText = "disabled rich editor" : e.target.innerText = "enabled rich editor"
+ }
 
   addOption(){
     this.options = new options()
@@ -80,7 +88,11 @@ export class AddComponent implements OnInit {
   }
 
   removeOption(index: any){
-    this.optionArray.splice(index)
+    this.optionArray.splice(index, 1)
+  }
+
+  change(e:any){
+    console.log(e.target.id)
   }
 
 }
