@@ -8,29 +8,34 @@ import { ManageQuestionsService } from '../manage-questions.service';
 })
 export class QuestionComponent implements OnInit {
 
-  selectedTopic! : number
+  selectedTopic!: number
 
-  topicType:any = []
-  topicArray:any = []
-  questionResult:any = []
-  selectedQuestionArray:any = []
+  topicType: any = []
+  topicArray: any = []
+  questionResult: any = []
+  selectedQuestionArray: any = []
+  selectedOptionsArray:any = []
+  optionsArray: any = []
   constructor(private _questions: ManageQuestionsService) { }
 
   ngOnInit(): void {
-    this._questions.getAllTopic().subscribe((result)=>{
+    this._questions.getAllTopic().subscribe((result) => {
       this.topicType = result
       this.topicArray = this.topicType.result
-      console.log(this.topicArray)
-     
+      
+
     })
   }
 
-  questionListTopicWise(){
-    this._questions.getQuestionTopicWise(this.selectedTopic).subscribe((result)=>{
+  questionListTopicWise() {
+    this.optionsArray = []
+    this._questions.getQuestionTopicWise(this.selectedTopic).subscribe((result) => {
       this.questionResult = result
       this.selectedQuestionArray = this.questionResult.result
-      console.log(this.selectedQuestionArray) 
-    })
+      
+    
+      console.log(this.selectedQuestionArray)
+    })  
   }
 
 }
