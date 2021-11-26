@@ -6,11 +6,11 @@ import { AppComponent } from './app.component';
 import { QuestionComponent } from './question/question.component';
 import { AddComponent } from './question/add/add.component';
 import { EditComponent } from './question/edit/edit.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ManageQuestionsService } from './manage-questions.service';
 import { HttpClientModule } from '@angular/common/http';
 import { QuillModule } from 'ngx-quill';
-
+import {NgxPaginationModule} from 'ngx-pagination';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +24,9 @@ import { QuillModule } from 'ngx-quill';
     NgSelectModule,
     FormsModule,
     HttpClientModule,
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    NgxPaginationModule,
+    ReactiveFormsModule
   ],
   providers: [ManageQuestionsService,],
   bootstrap: [AppComponent]

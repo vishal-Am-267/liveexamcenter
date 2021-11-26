@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { ManageQuestionsService } from 'src/app/manage-questions.service';
 import { options } from 'src/app/options';
@@ -20,12 +21,16 @@ export class AddComponent implements OnInit {
 
   }
 
+  selectedoption = true
   isSelected = true
   isOptionSelected = true
   result:any = []
   subjectArr:any = []
   topicArr:any =[]
   subject:any = []
+  questionForm!: FormGroup ;
+
+  
 
   selectedSubject!: number;
 
@@ -46,7 +51,21 @@ export class AddComponent implements OnInit {
     
   constructor(private _questions: ManageQuestionsService) { }
 
+
+  
   ngOnInit(): void {
+
+    this.questionForm = new FormGroup({
+      'subject': new FormControl(""),
+      'topic': new FormControl(""),
+      'type': new FormControl(""),
+      'diffLevel' :new FormControl("") ,
+      'rightMarks' : new FormControl(""),
+      'worngMarks' : new FormControl(""),
+      'questionText' : new FormControl(""),
+      // 'options' : this.optionArray
+    })
+  
 
     this.optionArray.push(this.options)
     this.optionArray.push(this.options)
@@ -94,5 +113,7 @@ export class AddComponent implements OnInit {
   change(e:any){
     console.log(e.target.id)
   }
-
+onSubmit(data:any){
+  console.log(data)
+}
 }
