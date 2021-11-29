@@ -1,1 +1,5 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
+
+span{
+    color: red;
+}

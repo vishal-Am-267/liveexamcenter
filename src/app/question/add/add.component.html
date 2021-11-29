@@ -1,7 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="/assets/images/logo.svg" alt="" width="100" height="24">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" [routerLink]="['/question']"
+                        routerLinkActive="router-link-active" style="color: moccasin;">Question</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
 <div class="container mt-5">
     <div class="card">
         <div class="card-header pb-3">Add Question</div>
-        <form action="" #questionPost="ngForm" (ngSubmit)=onSubmit(questionPost.value)>
+        <form action=""  [formGroup]="addMoreOption" (ngSubmit)="onSubmit()">
             <div class="card-body">
 
 
@@ -10,11 +31,12 @@
                 <div class="row">
                     <div class="col">
                         <label class="form-label">Select Subject</label>
-                        <ng-select [(ngModel)]="selectedSubject" name="selectedSubject" class="col-md-4 form-control"
-                            style="border: none;" (change)="topicList()">
+                        <ng-select [(ngModel)]="subject" name="subject" class="col-md-4 form-control"
+                            style="border: none;" (change)="topicList()" formControlName="subject">
                             <ng-option *ngFor="let subject of subjectArr" [value]="subject._id"> {{subject.name}}
                             </ng-option>
                         </ng-select>
+                        <span *ngIf="!addMoreOption.get('subject')!.valid && addMoreOption.get('subject')!.touched">please select one subject</span>
                     </div>
 
 
@@ -22,41 +44,46 @@
 
                     <div class="col">
                         <label class="form-label">Select Topics</label>
-                        <ng-select name="topic" ngModel class="col-md-4 form-control" style="border: none;">
+                        <ng-select name="topic" formControlName="topic" ngModel class="col-md-4 form-control" style="border: none;">
                             <ng-option *ngFor="let topic of topicArr" [value]="topic._id">{{topic.name}}</ng-option>
                         </ng-select>
+                        <span *ngIf="!addMoreOption.get('topic')!.valid && addMoreOption.get('topic')!.touched">please select one topic</span>
                     </div>
                 </div>
-
+                
 
 
 
                 <div class="row">
                     <div class="col">
                         <label class="form-label">Question Type</label>
-                        <ng-select name="type" ngModel class="col-md-4 form-control" style="border: none;">
+                        <ng-select  class="col-md-4 form-control" formControlName="type" [(ngModel)]="type" name="type" style="border: none;">
                             <ng-option *ngFor="let type of questionType" [value]="type.name"> {{type.name}}</ng-option>
                         </ng-select>
+                        <span *ngIf="!addMoreOption.get('type')!.valid && addMoreOption.get('type')!.touched">please select one question type</span>
                     </div>
 
                     <div class="col">
                         <label class="form-label">Difficulty Level</label>
-                        <ng-select name="deffLevel" ngModel class="col-md-4 form-control" style="border: none;">
+                        <ng-select  class="col-md-4 form-control" formControlName="diffLevel" style="border: none;">
                             <ng-option *ngFor="let level of difficultyLevel" [value]="level.name">{{level.name}}
                             </ng-option>
                         </ng-select>
+                        <span *ngIf="!addMoreOption.get('diffLevel')!.valid && addMoreOption.get('diffLevel')!.touched">please select one difficulty level</span>
                     </div>
 
                     <div class="col">
                         <label class="form-label">Right Marks</label>
-                        <input type="text" class="form-control" placeholder="First name" aria-label="First name"
-                            name="rightMarks" ngModel>
+                        <input type="number" class="form-control" formControlName = "rightMarks" placeholder="First name" aria-label="First name"
+                           >
+                           <span *ngIf="!addMoreOption.get('rightMarks')!.valid && addMoreOption.get('rightMarks')!.touched">Please enter a valid right mark</span>
                     </div>
 
                     <div class="col">
                         <label class="form-label">Wrong Marks</label>
-                        <input type="text" class="form-control" placeholder="First name" aria-label="First name"
-                            name="wrongMarks" ngModel>
+                        <input type="number" class="form-control" formControlName="wrongMarks" placeholder="First name" aria-label="First name"
+                            >
+                            <span *ngIf="!addMoreOption.get('wrongMarks')!.valid && addMoreOption.get('wrongMarks')!.touched">Please enter a valid wrong mark</span>
                     </div>
                 </div>
 
@@ -66,13 +93,14 @@
                 <div class="row">
                     <label class="form-label">Question</label>
                     <div class="col" *ngIf="isSelected">
-                        <textarea class="form-control" aria-label="With textarea" rows="6" name="questiontext"
-                            ngModel></textarea>
+                        <textarea class="form-control" formControlName="questionText" aria-label="With textarea" rows="6" ></textarea>
+                        <span *ngIf="!addMoreOption.get('questionText')!.valid && addMoreOption.get('questionText')!.touched">Question is required</span>
                     </div>
 
                     <quill-editor *ngIf="!isSelected" [styles]="{height : '200px'}"
-                        (onEditorChanged)="changedEditor($event)"></quill-editor>
-
+                        (onEditorChanged)="changedEditor($event)">
+                        <!-- <span *ngIf="!addMoreOption.get('subject')!.valid && addMoreOption.get('subject')!.touched">please select one subject</span> -->
+                    </quill-editor>
                     <a style="color: grey; cursor: pointer;" (click)="changeEditor()" #enable>Enable rich editor</a>
 
                 </div>
@@ -82,30 +110,37 @@
 
 
                 <label class="form-label">Options</label>
-                <div  class="row" *ngFor="let obj of optionArray; let i = index">
-                    <div class="col input-group mb-3">
-                        <div class="input-group-text col-1">
-                            <input class="form-check-input me-1 px-2" type="radio" value="" id="{{i}}" name="isSelected"
-                                aria-label="Radio button for following text input" (mouseover)="change($event)" [(ngModel)]="obj.isSelected">
-                            Option
-                            {{i + 1}}
+                <div formArrayName = 'options'>
+                    <div  class="row" *ngFor="let option of formArr.controls; let i=index"   >
+                        <div class="col input-group mb-3" [formGroupName]="i">
+                            <div class="input-group-text ">
+                                <!--  -->
+                                    <input *ngIf="type === 'MULTIPLE RESPONSE'; else multipleChoice" class="form-check-input mx-2" name="isCorrect" formControlName="isCorrect"
+                                    type="checkbox" value="" id="flexCheckDefault" [checked]="" (change)="onSelect($event)" >
+                                <ng-template #multipleChoice>
+                                    <input  class="form-check-input me-1 px-2" name="isCorrect" formControlName="isCorrect" type="radio"  
+                                    aria-label="Radio button for following text input" [checked]="" (change)="onSelect($event)" value="true">
+                                </ng-template>
+                                Option {{i+1}}
+                            </div>
+    
+                            <textarea *ngIf="isOptionSelected" class="form-control" formControlName="option" aria-label="With textarea" rows="4"
+                                name="option">
+                            </textarea>
+    
+                            <quill-editor *ngIf="!isOptionSelected" [styles]="{height : '80px'}"
+                                (onEditorChanged)="changedEditor($event)">
+                            </quill-editor>
+                        
                         </div>
-
-                        <textarea *ngIf="isOptionSelected" class="form-control" aria-label="With textarea" rows="4"
-                            name="option" [(ngModel)]=obj.option>
-                        </textarea>
-
-                        <quill-editor *ngIf="!isOptionSelected" [styles]="{height : '80px'}"
-                            (onEditorChanged)="changedEditor($event)">
-                        </quill-editor>
-                    
+    
+                        <a style="color: grey; cursor: pointer;" (click)="changeOptionEditor($event)">Enable rich
+                            editor </a>
+                        <a style="color: grey; cursor: pointer;" (click)="removeOption(i)">Remove option</a>
+    
                     </div>
-
-                    <a style="color: grey; cursor: pointer;" (click)="changeOptionEditor($event, i)">Enable rich
-                        editor </a>
-                    <a style="color: grey; cursor: pointer;" (click)="removeOption(i)">Remove option</a>
-
                 </div>
+          
 
 
                 <button class="btn  float-start mt-3" style="border: none; color: rgb(46, 170, 237); "
@@ -119,8 +154,8 @@
 
 
             <div class="card-footer mt-5">
-                <button class="btn btn-primary float-start" [routerLink]="['/question/add']"
-                    routerLinkActive="router-link-active">
+                <button type="submit" class="btn btn-primary float-start" 
+                   >
 
                     Save Question</button>
                 <button class="btn  mx-4" [routerLink]="['/question/add']" routerLinkActive="router-link-active">

@@ -6,18 +6,18 @@ import { QuestionComponent } from './question/question.component';
 
 const routes: Routes = [
   {path: "" , component: QuestionComponent,},
-  {path: "question", component: QuestionComponent,
-  children: [
+  {path: "question", component: QuestionComponent,},
+ 
     {
       path: 'add', // child route path
       component: AddComponent, // child route component that the router renders
     },
     {
-      path: 'edit',
+      path: 'edit/:id',
       component: EditComponent, // another child route component that the router renders
     },
-  ],
-  },
+
+ 
 
 ];
 

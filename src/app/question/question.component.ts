@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ManageQuestionsService } from '../manage-questions.service';
 
 @Component({
@@ -7,6 +7,11 @@ import { ManageQuestionsService } from '../manage-questions.service';
   styleUrls: ['./question.component.css']
 })
 export class QuestionComponent implements OnInit {
+
+  @ViewChild('multipleChoice', { static: true }) multipleChoice!: ElementRef
+  @ViewChild('questionCheck', {static:true}) input! : ElementRef
+ 
+  // questionCheck = document.getElementsByClassName('.questionCheck')
 
   selectedOption = true
   selectedTopic!: number
@@ -18,9 +23,10 @@ export class QuestionComponent implements OnInit {
   selectedOptionsArray:any = []
   optionsArray: any = []
   page: number = 1
-  constructor(private _questions: ManageQuestionsService) { }
+  constructor(private _questions: ManageQuestionsService, private rd : Renderer2, private _elementRef : ElementRef) { }
 
   ngOnInit(): void {
+    
     this.pageNumbers = 5
     this._questions.getAllTopic().subscribe((result) => {
       this.topicType = result
@@ -28,6 +34,11 @@ export class QuestionComponent implements OnInit {
       
 
     })
+  }
+
+  defaultButton()
+  {
+    console.log(this.multipleChoice.nativeElement)
   }
 
   questionListTopicWise() {
@@ -48,9 +59,14 @@ export class QuestionComponent implements OnInit {
   }
 
   CheckAllOptions() {
-    if (this.selectedQuestionArray.every((_eval: any) => _eval.checked == true))
-      this.selectedQuestionArray.forEach((val: { checked: boolean; }) => { val.checked = false });
-    else
-      this.selectedQuestionArray.forEach((val: { checked: boolean; }) => { val.checked = true });
+   console.log(this.input.nativeElement.innerHtml)
+  }
+  onDelete(index:any){
+    // this.selectedQuestionArray.splice(index,1)
+    // this._questions.deleteQuestion(index).subscribe((data) =>{
+    //   console.log(data)
+      
+    // })
+    
   }
 }
