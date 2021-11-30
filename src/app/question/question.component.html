@@ -74,8 +74,7 @@
                     <div class="form-check me-2">
                         <input class="form-check-input questionCheck" type="checkbox" value="" id="flexCheckDefault" #questionCheck [checked]="checkAll">
                         <label class="form-check-label" for="flexCheckDefault">
-                           
-                            {{question.questionText}}
+                           <div [innerHtml]="question.questionText  | safeHtml"></div>
                         </label>
                     </div>
                     <div *ngFor="let item of question.options; let i = index">
