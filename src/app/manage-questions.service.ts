@@ -5,12 +5,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ManageQuestionsService {
 
-  header = { 'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTljZTRhOGU1ODY4NTE0NjEwYzhkYTUiLCJfYWN0aXZlT3JnIjoiNjE5Y2U0YThlNTg2ODUxNDYxMGM4ZGE3IiwiaWF0IjoxNjM4MTYwMDE3LCJleHAiOjE2MzgyMDMyMTd9.2ap515mjV2omAA-w6HFaJsx8LKudEY9DCHhUoh46NlQ' }
+  header = { 'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTljZTRhOGU1ODY4NTE0NjEwYzhkYTUiLCJfYWN0aXZlT3JnIjoiNjE5Y2U0YThlNTg2ODUxNDYxMGM4ZGE3IiwiaWF0IjoxNjM4MjQ1MjkzLCJleHAiOjE2MzgyODg0OTN9.KynmrD0f_E_Ezq9UrsSnJw5coO2y0hLgYfkL0xDcpZU' }
 
   subject_url = 'http://admin.liveexamcenter.in/api/subjects?term='
   topic_url = 'https://admin.liveexamcenter.in/api/topics/subject'
-  questionPost_url ='http://admin.liveexamcenter.in/api/questions'
-  deleteQuestion_url = 'http://admin.liveexamcenter.in/api/questions'
+  common_url ='http://admin.liveexamcenter.in/api/questions'
+  
+
   allTopic_url = 'http://admin.liveexamcenter.in/api/topics?page=1&limit=9007199254740991&term='
   topicWiseQuestion_url = 'http://admin.liveexamcenter.in/api/questions?page=1&limit=20&term=&topic='
   question_url = "http://admin.liveexamcenter.in/api/questions"
@@ -44,12 +45,22 @@ export class ManageQuestionsService {
   }
   postQuestion(question : any){
     const headers = this.header
-    return this._http.post<any>(this.questionPost_url, question, {headers})
+    return this._http.post<any>(this.common_url, question, {headers})
   }
 
   deleteQuestion(id:any){
     const headers = this.header
-    return this._http.delete(`${this.deleteQuestion_url}/${id}`,{headers})
+    return this._http.delete(`${this.common_url}/${id}`,{headers})
+  }
+
+  updateQuestion(id:any,  question : any){
+    const headers = this.header
+    return this._http.put(`${this.common_url}/${id}`,question , {headers})
+  }
+
+  getAllQuestions(){
+    const headers = this.header
+    return this._http.get(this.topicWiseQuestion_url ,{headers})
   }
 
 }

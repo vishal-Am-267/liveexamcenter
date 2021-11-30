@@ -1,3 +1,4 @@
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ManageQuestionsService } from '../manage-questions.service';
 
@@ -12,8 +13,12 @@ export class QuestionComponent implements OnInit {
   @ViewChild('questionCheck', {static:true}) input! : ElementRef
  
   // questionCheck = document.getElementsByClassName('.questionCheck')
-
-  selectedOption = true
+  checkAll = false;
+  searchText = '';
+  allQuestionResult:any =[];
+  allQuestionArray:any =[];
+  // isCheckSelected = false
+  selectedOption = true;
   selectedTopic!: number
   pageNumbers!: number
   topicType: any = []
@@ -28,6 +33,13 @@ export class QuestionComponent implements OnInit {
   ngOnInit(): void {
     
     this.pageNumbers = 5
+    this._questions.getAllQuestions().subscribe((data)=>{
+      this.allQuestionResult = data
+      this.allQuestionArray = this.allQuestionResult.result
+      console.log(this.allQuestionArray)
+    })
+
+
     this._questions.getAllTopic().subscribe((result) => {
       this.topicType = result
       this.topicArray = this.topicType.result
@@ -58,15 +70,27 @@ export class QuestionComponent implements OnInit {
     console.log(this.pageNumbers)
   }
 
-  CheckAllOptions() {
-   console.log(this.input.nativeElement.innerHtml)
+  checkAllOptions(e:any) {
+  //  console.log(this.input.nativeElement.innerHtml)
+    // if(this.isCheckSelected === false){
+      if(e.target.checked === true){
+      this.checkAll = e.target.checked
+      console.log(this.checkAll)
+    }
+    else{
+      e.target.checked = false
+      this.checkAll = e.target.checked
+      console.log(this.checkAll)
+    }
   }
   onDelete(index:any){
-    // this.selectedQuestionArray.splice(index,1)
-    // this._questions.deleteQuestion(index).subscribe((data) =>{
-    //   console.log(data)
-      
-    // })
+   if(confirm("Are you sure you want to delete?")){
+    this._questions.deleteQuestion(index).subscribe((data) =>{
+      console.log(data)
+      this.questionListTopicWise()
+    })
+   }
+    
     
   }
 }

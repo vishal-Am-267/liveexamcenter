@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+import { ToastrService } from 'ngx-toastr';
 import { ManageQuestionsService } from 'src/app/manage-questions.service';
 
 
@@ -13,7 +14,7 @@ import { ManageQuestionsService } from 'src/app/manage-questions.service';
 export class AddComponent implements OnInit {
 
   @ViewChild('enable', { static: true }) enable!: ElementRef
-  @ViewChild('option', { static: true }) option!: ElementRef<HTMLInputElement>
+  // @ViewChild('option', { static: true }) option!: ElementRef<HTMLInputElement>
 
   // options = new options()
   // optionArray:any = []
@@ -21,7 +22,7 @@ export class AddComponent implements OnInit {
   changedEditor(event: EditorChangeContent | EditorChangeSelection) {
 
   }
-
+  
   selectedoption = true
   isSelected = true
   isOptionSelected = true
@@ -51,7 +52,7 @@ export class AddComponent implements OnInit {
   ];
 
 
-  constructor(private _questions: ManageQuestionsService, private _fb: FormBuilder) { }
+  constructor(private _questions: ManageQuestionsService, private _fb: FormBuilder, private toastr: ToastrService) { }
 
   public addMoreOption!: FormGroup;
 
@@ -128,25 +129,19 @@ export class AddComponent implements OnInit {
       return
     }
     console.log(this.addMoreOption.value)
-    // this._questions.postQuestion(this.addMoreOption.value).subscribe(
-    //   data => console.log('success', data),
-    //   error => console.error('error',error)
+    this._questions.postQuestion(this.addMoreOption.value).subscribe(
+      data => console.log('success', data),
+      error => console.error('error',error)
       
-    // )
+    )
+    this.toastr.success('Data addded Successfully!');
     this.addMoreOption.reset()
+    
   }
   onSelect(e:any){
     // e.target.checked = ""
     console.log(e.target.checked)
     
-    // if(this.temp != 0)
-    // {
-    //   e.target.value = true
-    //   this.temp = 0
-    // }
-    // else
-    // {
-    //   e.target.value = false
-    // }
+ 
   }
 }
