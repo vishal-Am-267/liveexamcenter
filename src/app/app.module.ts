@@ -31,7 +31,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     QuillModule.forRoot(),
     ToastrModule.forRoot(),
     NgxPaginationModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PipesModule
   ],
   providers: [ManageQuestionsService,],
   bootstrap: [AppComponent]
