@@ -17,11 +17,12 @@ export class QuestionComponent implements OnInit {
   searchText = '';
   allQuestionResult:any =[];
   allQuestionArray:any =[];
-  // isCheckSelected = false
+  isTopicSelected = false
   selectedOption = true;
   selectedTopic!: number
   pageNumbers!: number
   topicType: any = []
+  total = ""
   topicArray: any = []
   questionResult: any = []
   selectedQuestionArray: any = []
@@ -31,20 +32,21 @@ export class QuestionComponent implements OnInit {
   constructor(private _questions: ManageQuestionsService, private rd : Renderer2, private _elementRef : ElementRef) { }
 
   ngOnInit(): void {
-    
+    this.isTopicSelected = false
     this.pageNumbers = 5
+    
     this._questions.getAllQuestions().subscribe((data)=>{
       this.allQuestionResult = data
       this.allQuestionArray = this.allQuestionResult.result
       console.log(this.allQuestionArray)
+      this.total = this.allQuestionArray.length
+      console.log(this.total)
     })
-
 
     this._questions.getAllTopic().subscribe((result) => {
       this.topicType = result
       this.topicArray = this.topicType.result
       
-
     })
   }
 
@@ -54,12 +56,14 @@ export class QuestionComponent implements OnInit {
   }
 
   questionListTopicWise() {
+    this.isTopicSelected = true
     this.pageNumbers=5
     this.optionsArray = []
     this._questions.getQuestionTopicWise(this.selectedTopic).subscribe((result) => {
       this.questionResult = result
       this.selectedQuestionArray = this.questionResult.result
-      
+      this.total = this.selectedQuestionArray.length
+      console.log(this.total)
     
       console.log(this.selectedQuestionArray)
     })  

@@ -35,6 +35,7 @@
                     <div class="form-check me-2">
                         <input class="form-check-input" type="checkbox"  name="isCheckSelected" id="flexCheckDefault"
                             (change)="checkAllOptions($event)">
+                            <button style="border: none; margin-right: 10px;" *ngIf="checkAll" class="btn btn-danger">delete {{total}} questions</button>
                         <label class="form-check-label" for="flexCheckDefault">
                             Select
                         </label>
@@ -61,6 +62,7 @@
             </div>
 
             <hr>
+<<<<<<< Updated upstream
             <ng-template #default>
                 <div class="bg-image">
                     <img class="img-fluid" src="/assets/images/default-question.png" alt="">
@@ -76,33 +78,98 @@
                         <label class="form-check-label" for="flexCheckDefault">
                            <div [innerHtml]="question.questionText  | safeHtml"></div>
                         </label>
+=======
+            <div *ngIf="!isTopicSelected || selectedTopic === null">
+                <ng-template #default>
+                    <div class="bg-image">
+                        <img class="img-fluid" src="/assets/images/default-question.png" alt="">
+                        <h5 class="default-heading">No Question Available</h5>
+                        <button class="default-btn">Add Question</button>
+>>>>>>> Stashed changes
                     </div>
-                    <div *ngFor="let item of question.options; let i = index">
-                        <div class="radio ms-4">
-                            <label style="color: grey;">
-                                <input *ngIf="question.type === 'MULTIPLE CHOICE'" #multipleChoice type="radio"
-                                    [checked]="item.isCorrect" class="form-check-input" disabled>
-
-                                <input *ngIf="question.type === 'MULTIPLE RESPONSE'" #multipleResponse
-                                    class="form-check-input" [checked]="item.isCorrect" type="checkbox"
-                                    [value]="item._id" id="flexCheckDefault" disabled>{{item.option}}
+                </ng-template>
+                <div *ngIf="allQuestionArray.length > 0; else default">
+                    <div
+                        *ngFor="let question of allQuestionArray | paginate: { itemsPerPage: pageNumbers, currentPage: page, totalItems: total } | filter: searchText  ;  let i = index">
+                        <div  class="form-check me-2" >
+                            <input class="form-check-input questionCheck" type="checkbox" value="" id="flexCheckDefault" #questionCheck [checked]="checkAll">
+                            <label  class="form-check-label" for="flexCheckDefault">
+                               <div class="question-text"  [innerHtml]="question.questionText  | safeHtml: 'html' "></div>
                             </label>
-
                         </div>
+                        <div *ngFor="let item of question.options; let i = index">
+                            <div class="radio ms-4">
+                                <label >
+                                    <input *ngIf="question.type === 'MULTIPLE CHOICE'" #multipleChoice type="radio"
+                                        [checked]="item.isCorrect" class="form-check-input me-1" disabled>
+                
+                                    <input *ngIf="question.type === 'MULTIPLE RESPONSE'" #multipleResponse
+                                        class="form-check-input me-1" [checked]="item.isCorrect" type="checkbox"
+                                        [value]="item._id" id="flexCheckDefault" disabled>
+                                    <label  class="form-check-label" for="flexCheckDefault">
+                                        <div class="question-text"  [innerHtml]="item.option  | safeHtml: 'html' "></div>
+                                      </label>
+                                </label>
+                
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button style="border: none; background-color: white; font-size: 14px; color: grey;"
+                                class="mx-3" routerLink='/edit/{{question._id}}'><i class='bx bx-pencil'></i> Edit</button>
+                            <button style="border: none; background-color: white; font-size: 14px; color: grey  ;" (click)=onDelete(question._id)> <i
+                                    class='bx bxs-trash'></i> Delete</button>
+                        </div>
+                        <hr>
                     </div>
-                    <div class="mt-3">
-                        <button style="border: none; background-color: white; font-size: 14px; color: grey;"
-                            class="mx-3" routerLink='/edit/{{question._id}}'><i class='bx bx-pencil'></i> Edit</button>
-                        <button style="border: none; background-color: white; font-size: 14px; color: grey  ;" (click)=onDelete(question._id)> <i
-                                class='bx bxs-trash'></i> Delete</button>
+                </div>
+            </div>
+
+
+            <div *ngIf="isTopicSelected">
+                <ng-template #default>
+                    <div class="bg-image">
+                        <img class="img-fluid" src="/assets/images/default-question.png" alt="">
+                        <h5 class="default-heading">No Question Available</h5>
+                        <button class="default-btn">Add Question</button>
                     </div>
-                    <hr>
+                </ng-template>
+                <div *ngIf="selectedQuestionArray.length > 0; else default">
+                    <div
+                        *ngFor="let question of selectedQuestionArray | paginate: { itemsPerPage: pageNumbers, currentPage: page , totalItems: total } | filter: searchText  ;  let i = index ">
+                        <div class="form-check me-2">
+                            <input class="form-check-input questionCheck" type="checkbox" value="" id="flexCheckDefault" #questionCheck [checked]="checkAll">
+                            <label class="form-check-label" for="flexCheckDefault">
+                               <div  [innerHtml]="question.questionText  | safeHtml: 'html'"></div>
+                            </label> 
+                        </div>
+                        <div *ngFor="let item of question.options; let i = index">
+                            <div class="radio ms-4">
+                                <label style="color: grey;">
+                                    <input *ngIf="question.type === 'MULTIPLE CHOICE'" #multipleChoice type="radio"
+                                        [checked]="item.isCorrect" class="form-check-input" disabled>
+    
+                                    <input *ngIf="question.type === 'MULTIPLE RESPONSE'" #multipleResponse
+                                        class="form-check-input mr-2" [checked]="item.isCorrect" type="checkbox"
+                                        [value]="item._id" id="flexCheckDefault" disabled>{{item.option}}
+                                        
+                                </label>
+    
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button style="border: none; background-color: white; font-size: 14px; color: grey;"
+                                class="mx-3" routerLink='/edit/{{question._id}}'><i class='bx bx-pencil'></i> Edit</button>
+                            <button style="border: none; background-color: white; font-size: 14px; color: grey  ;" (click)=onDelete(question._id)> <i
+                                    class='bx bxs-trash'></i> Delete</button>
+                        </div>
+                        <hr>
+                    </div>
                 </div>
             </div>
             
 
-            <div *ngIf="selectedQuestionArray.length > 0;" class="row">
-                <small>Showing 1 to 7 of {{selectedQuestionArray.length}} entries</small>
+            <div *ngIf="selectedQuestionArray.length > 0 ||  allQuestionArray.length > 0 ;" class="row">
+                <small>Showing 1 to 7 of {{total}} entries</small>
                 <pagination-controls class="float-end" (pageChange)="page = $event"
                     style="display: flex; justify-content: end;"></pagination-controls>
             </div>

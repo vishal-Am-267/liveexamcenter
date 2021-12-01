@@ -22,17 +22,19 @@ export class AddComponent implements OnInit {
   changedEditor(event: EditorChangeContent | EditorChangeSelection) {
 
   }
-  
+  rowClicked : any
   selectedoption = true
   isSelected = true
+  temp = -1
   isOptionSelected = true
   result: any = []
   subjectArr: any = []
+  hiddenItems:any ={}
   topicArr: any = []
   // subject: any = []
   questionForm!: FormGroup;
   type =""
-  temp = 0
+  
 
 
   subject!: number;
@@ -86,8 +88,8 @@ export class AddComponent implements OnInit {
   initOptionRows() {
     return this._fb.group({
     option:[''],
-    isCorrect:['false'],
-    richTextEditor:['false']
+    isCorrect:[false],
+    richTextEditor:[false]
     });
   }
 
@@ -105,11 +107,17 @@ export class AddComponent implements OnInit {
     !this.isSelected ? this.enable.nativeElement.innerText = "disabled rich editor" : this.enable.nativeElement.innerText = "enabled rich editor"
 
   }
-  changeOptionEditor(e: any) {
-
-    //  console.log(this.isOptionSelected)
-    this.isOptionSelected = !this.isOptionSelected
-    !this.isOptionSelected ? e.target.innerText = "disabled rich editor" : e.target.innerText = "enabled rich editor"
+  changeOptionEditor(e:any, index:any) {
+    
+    console.log(e.target.id)
+    console.log(e.target.id == index +1)
+    if( e.target.id == index +1)
+    {
+      
+      this.isOptionSelected = !this.isOptionSelected
+      !this.isOptionSelected ? e.target.innerText = "Disabled rich editor" : e.target.innerText = "Enabled rich editor"
+    }
+    
   }
 
   addOption() {
@@ -138,10 +146,16 @@ export class AddComponent implements OnInit {
     this.addMoreOption.reset()
     
   }
-  onSelect(e:any){
+  onSelect(e:any, index:any){
     // e.target.checked = ""
     console.log(e.target.checked)
-    
+    if(this.temp != -1){
+      this.addMoreOption.value.options[this.temp].isCorrect = false
+    }
+   
+      this.addMoreOption.value.options[index].isCorrect = true
+      this.temp = index
+   
  
   }
 }

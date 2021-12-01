@@ -13,12 +13,17 @@ import { QuillModule } from 'ngx-quill';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { ToastrModule } from 'ngx-toastr';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { PipesModule } from './pipes/pipes.module';
+import { AllQuestionsComponent } from './question/all-questions/all-questions.component';
+import { TopicWiseQuestionsComponent } from './question/topic-wise-questions/topic-wise-questions.component';
 @NgModule({
   declarations: [
     AppComponent,
     QuestionComponent,
     AddComponent,
     EditComponent,
+    AllQuestionsComponent,
+    TopicWiseQuestionsComponent,
    
   ],
   imports: [

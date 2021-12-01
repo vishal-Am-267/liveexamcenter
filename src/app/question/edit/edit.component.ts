@@ -14,11 +14,12 @@ export class EditComponent implements OnInit {
   @ViewChild('enable', { static: true }) enable!: ElementRef
 
   selectedoption = true
-  
+  richText = false
   isSelected = true
   existingOptionArray: any = []
   isOptionSelected = true
   result: any = []
+  hiddenItems:any ={}
   isTopicListCalled = false
   subjectArr: any = []
   topicArr: any = []
@@ -38,6 +39,7 @@ export class EditComponent implements OnInit {
     wrongMarks: ['', Validators.required],
     questionText: ['', Validators.required],
     options: this._fb.array([])
+    
   });
 
   questionType = [
@@ -61,20 +63,20 @@ export class EditComponent implements OnInit {
 
 
   ngOnInit(): void {
-   
+    
     
     this._questions.getSubjectList().subscribe((res) => {
       
       this.result = res
       this.subjectArr = this.result.result
-      console.log(this.subjectArr)
+      // console.log(this.subjectArr)
     })
 
     this._questions.getCurrentData(this._router.snapshot.params.id).subscribe((result) => {
       
       this.questionArray = result
      
-      // console.log(this.topic)
+      console.log(this.questionArray)
       this.editQuestion.patchValue({
         subject: this.questionArray.subject._id,
         
@@ -116,6 +118,7 @@ export class EditComponent implements OnInit {
   }
 
   changeEditor() {
+    this.richText = true
     this.isSelected = !this.isSelected
     !this.isSelected ? this.enable.nativeElement.innerText = "disabled rich editor" : this.enable.nativeElement.innerText = "enabled rich editor"
 

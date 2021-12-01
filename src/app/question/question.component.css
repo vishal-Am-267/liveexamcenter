@@ -6,6 +6,7 @@
 img {
     vertical-align: middle;
     border-style: none;
+    
 }
 .bg-image{
     text-align: center;
@@ -23,4 +24,8 @@ img {
     background-color: white;
     color: rgb(45, 169, 241);
     margin-bottom: 20px;
+}
+.question-text{
+    overflow-wrap: break-word;
+    inline-size: 1250px;
 }

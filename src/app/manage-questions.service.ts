@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ManageQuestionsService {
 
-  header = { 'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTljZTRhOGU1ODY4NTE0NjEwYzhkYTUiLCJfYWN0aXZlT3JnIjoiNjE5Y2U0YThlNTg2ODUxNDYxMGM4ZGE3IiwiaWF0IjoxNjM4MjQ1MjkzLCJleHAiOjE2MzgyODg0OTN9.KynmrD0f_E_Ezq9UrsSnJw5coO2y0hLgYfkL0xDcpZU' }
+  header = { 'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTljZTRhOGU1ODY4NTE0NjEwYzhkYTUiLCJfYWN0aXZlT3JnIjoiNjE5Y2U0YThlNTg2ODUxNDYxMGM4ZGE3IiwiaWF0IjoxNjM4MzMzNjUyLCJleHAiOjE2MzgzNzY4NTJ9.GJeHhyGl3vRDQv_VABr1CDxwXfZM1HmtB_lSFr0B7wE' }
 
   subject_url = 'http://admin.liveexamcenter.in/api/subjects?term='
   topic_url = 'https://admin.liveexamcenter.in/api/topics/subject'

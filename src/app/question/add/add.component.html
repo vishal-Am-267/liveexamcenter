@@ -32,7 +32,7 @@
                     <div class="col">
                         <label class="form-label">Select Subject</label>
                         <ng-select [(ngModel)]="subject" name="subject" class="col-md-4 form-control"
-                            style="border: none;" (change)="topicList()" formControlName="subject">
+                            style="border: none;" (change)="topicList()" placeholder="type to search subject..." formControlName="subject">
                             <ng-option *ngFor="let subject of subjectArr" [value]="subject._id"> {{subject.name}}
                             </ng-option>
                         </ng-select>
@@ -44,7 +44,7 @@
 
                     <div class="col">
                         <label class="form-label">Select Topics</label>
-                        <ng-select name="topic" formControlName="topic"  class="col-md-4 form-control" style="border: none;">
+                        <ng-select name="topic" formControlName="topic" placeholder="type to search topic..."  class="col-md-4 form-control" style="border: none;">
                             <ng-option *ngFor="let topic of topicArr" [value]="topic._id">{{topic.name}}</ng-option>
                         </ng-select>
                         <span *ngIf="!addMoreOption.get('topic')!.valid && addMoreOption.get('topic')!.touched">please select one topic</span>
@@ -115,28 +115,29 @@
                         <div class="col input-group mb-3" [formGroupName]="i">
                             <div class="input-group-text ">
                                 <!--  -->
-                                    <input *ngIf="type === 'MULTIPLE RESPONSE'; else multipleChoice" class="form-check-input mx-2" name="isCorrect" formControlName="isCorrect"
-                                    type="checkbox" value="" id="flexCheckDefault" [checked]="" (change)="onSelect($event)" >
+                                    <input *ngIf="type === 'MULTIPLE RESPONSE'; else multipleChoice" class="form-check-input mx-2" 
+                                    type="checkbox" value="" id="flexCheckDefault"  (change)="onSelect($event, i)" >
                                 <ng-template #multipleChoice>
                                     <input  class="form-check-input me-1 px-2" name="isCorrect" formControlName="isCorrect" type="radio"  
-                                    aria-label="Radio button for following text input" [checked]="" (change)="onSelect($event)" value="true">
+                                    aria-label="Radio button for following text input" [checked]="" (change)="onSelect($event, i)" value="true">
                                 </ng-template>
                                 Option {{i+1}}
                             </div>
     
-                            <textarea *ngIf="isOptionSelected" class="form-control" formControlName="option" aria-label="With textarea" rows="4"
+                            <textarea *ngIf = "!hiddenItems[i]"  class="form-control" formControlName="option" aria-label="With textarea" rows="4"
                                 name="option">
                             </textarea>
     
-                            <quill-editor *ngIf="!isOptionSelected" formControlName="option" [styles]="{height : '80px'}"
+                            <quill-editor *ngIf = "hiddenItems[i]"  formControlName="option" [styles]="{height : '80px'}"
                                 (onEditorChanged)="changedEditor($event)">
                             </quill-editor>
-                        
+                            
                         </div>
-                        <div class="row">
-                            <a class="col-3" style="color: grey; cursor: pointer;" (click)="changeOptionEditor($event)">Enable rich
+                        <div class="row" style="display: inline;">
+                            <a  style="color: grey;  cursor: pointer;" [id]="i + 1" (click)="hiddenItems[i] = !hiddenItems[i]">Enable rich
                                 editor </a>
-                            <a class="col-2 float-start" style="color: grey; cursor: pointer;" (click)="removeOption(i)">Remove option</a>
+                                
+                            <a  style="color: grey; cursor: pointer;" (click)="removeOption(i)">Remove option</a>
                         </div>
                         
     
