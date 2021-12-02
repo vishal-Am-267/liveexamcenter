@@ -24,6 +24,7 @@ export class AddComponent implements OnInit {
   }
   rowClicked : any
   selectedoption = true
+  submitted = false
   isSelected = true
   temp = -1
   isOptionSelected = true
@@ -31,6 +32,7 @@ export class AddComponent implements OnInit {
   subjectArr: any = []
   hiddenItems:any ={}
   topicArr: any = []
+  correctOptionSelected = false
   // subject: any = []
   questionForm!: FormGroup;
   type =""
@@ -60,7 +62,8 @@ export class AddComponent implements OnInit {
 
 
   ngOnInit(): void {
-    
+    this.submitted = false
+    this.correctOptionSelected = false
     this.addMoreOption = this._fb.group({
   	  subject : ['', Validators.required],
   	  topic : ['', Validators.required],
@@ -87,9 +90,9 @@ export class AddComponent implements OnInit {
 
   initOptionRows() {
     return this._fb.group({
-    option:[''],
-    isCorrect:[false],
-    richTextEditor:[false]
+    option:['', Validators.required],
+    isCorrect:[false, Validators.required],
+    richTextEditor:[false, Validators.required]
     });
   }
 
@@ -105,19 +108,26 @@ export class AddComponent implements OnInit {
   changeEditor() {
     this.isSelected = !this.isSelected
     !this.isSelected ? this.enable.nativeElement.innerText = "disabled rich editor" : this.enable.nativeElement.innerText = "enabled rich editor"
+    if(this.isSelected === false){
 
-  }
-  changeOptionEditor(e:any, index:any) {
-    
-    console.log(e.target.id)
-    console.log(e.target.id == index +1)
-    if( e.target.id == index +1)
-    {
-      
-      this.isOptionSelected = !this.isOptionSelected
-      !this.isOptionSelected ? e.target.innerText = "Disabled rich editor" : e.target.innerText = "Enabled rich editor"
     }
+    else{
+
+    }
+  }
+  changeOptionEditor(index:any, e:any) {
     
+   
+    this.hiddenItems[index] = !this.hiddenItems[index]
+    console.log(this.hiddenItems[index])
+      this.hiddenItems[index] ? e.target.innerText = "Disabled rich editor" : e.target.innerText = "Enabled rich editor"
+      if(this.hiddenItems[index]){
+        console.log(this.addMoreOption.value)
+        this.addMoreOption.value.options[index].richTextEditor = true
+        console.log("entered  ")
+      }
+     
+      // this.addMoreOption.value.options[index].isCorrect = false
   }
 
   addOption() {
@@ -132,6 +142,8 @@ export class AddComponent implements OnInit {
     console.log(e.target.id)
   }
   onSubmit() {
+    this.submitted = true
+    console.log(this.addMoreOption.value)
     if(this.addMoreOption.invalid)
     {
       return
@@ -143,11 +155,12 @@ export class AddComponent implements OnInit {
       
     )
     this.toastr.success('Data addded Successfully!');
-    this.addMoreOption.reset()
+      this.addMoreOption.reset()
     
   }
   onSelect(e:any, index:any){
     // e.target.checked = ""
+    this.correctOptionSelected = true
     console.log(e.target.checked)
     if(this.temp != -1){
       this.addMoreOption.value.options[this.temp].isCorrect = false

@@ -2,7 +2,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+import { ToastrService } from 'ngx-toastr';
 import { ManageQuestionsService } from 'src/app/manage-questions.service';
+import { options } from 'src/app/options';
 
 @Component({
   selector: 'app-edit',
@@ -18,6 +20,7 @@ export class EditComponent implements OnInit {
   isSelected = true
   existingOptionArray: any = []
   isOptionSelected = true
+  correctOptionSelected = false
   result: any = []
   hiddenItems:any ={}
   isTopicListCalled = false
@@ -25,7 +28,9 @@ export class EditComponent implements OnInit {
   topicArr: any = []
   questionArray: any = []
   type = ""
-  
+  temp = -1
+  selectedIndex:any
+  submitted = false
   subject!: number;
   topicValue : any
   // public editQuestion!: FormGroup;
@@ -56,7 +61,7 @@ export class EditComponent implements OnInit {
 
   ];
 
-  constructor(private _questions: ManageQuestionsService, private _fb: FormBuilder,private route : Router, private _router: ActivatedRoute) { }
+  constructor(private _questions: ManageQuestionsService,private toastr : ToastrService, private _fb: FormBuilder,private route : Router, private _router: ActivatedRoute) { }
 
 
 
@@ -75,8 +80,15 @@ export class EditComponent implements OnInit {
     this._questions.getCurrentData(this._router.snapshot.params.id).subscribe((result) => {
       
       this.questionArray = result
-     
-      console.log(this.questionArray)
+      
+      for(let i =0 ;i<this.questionArray.options.length ; i++) {
+        
+        if(this.questionArray.options[i].isCorrect == true)
+        {
+          
+          this.selectedIndex = i
+        }
+      }
       this.editQuestion.patchValue({
         subject: this.questionArray.subject._id,
         
@@ -117,24 +129,23 @@ export class EditComponent implements OnInit {
 
   }
 
-  changeEditor() {
+  changeEditor(e:any) {
     this.richText = true
-    this.isSelected = !this.isSelected
-    !this.isSelected ? this.enable.nativeElement.innerText = "disabled rich editor" : this.enable.nativeElement.innerText = "enabled rich editor"
+    this.hiddenItems = !this.hiddenItems
+    !this.hiddenItems ? e.target.innerText = "Enabled rich editor" : e.target.innerText = "Disabled rich editor"
 
   }
 
 
-  changeOptionEditor(e: any) {
+  changeOptionEditor(e: any, i: any) {
 
     //  console.log(this.isOptionSelected)
-    this.isOptionSelected = !this.isOptionSelected
-    !this.isOptionSelected ? e.target.innerText = "disabled rich editor" : e.target.innerText = "enabled rich editor"
+    this.hiddenItems[i] = !this.hiddenItems[i]
+    this.hiddenItems[i] ? e.target.innerText = "Disabled rich editor" : e.target.innerText = "Enabled rich editor"
   }
 
   addOption() {
-    this.formArr.push(this.initOptionRows(
-    ));
+    this.formArr.push(this.initOptionRows())
   }
 
   removeOption(index: any) {
@@ -149,9 +160,9 @@ export class EditComponent implements OnInit {
   currentQuestion(currentQuestion: any) {
 
     this.formArr.push(this._fb.group({
-      option: [currentQuestion.option],
-      isCorrect: [currentQuestion.isCorrect],
-      richTextEditor: ['false']
+      option: [currentQuestion.option, Validators.required],
+      isCorrect: [currentQuestion.isCorrect, Validators.required],
+      richTextEditor: ['false', Validators.required]
     })) 
   }
 
@@ -159,12 +170,18 @@ export class EditComponent implements OnInit {
 
     return this._fb.group({
       option: [''],
-      isCorrect: ['false'],
-      richTextEditor: ['false']
+      isCorrect: [false],
+      richTextEditor: [false]
     });
   }
 
   onSubmit() {
+    // this.submitted = true
+    if(this.editQuestion.invalid)
+    {
+      return
+    }
+
     if(this.isTopicListCalled === false){
       this.editQuestion.value.topic = this.questionArray.topic._id
     }
@@ -172,8 +189,24 @@ export class EditComponent implements OnInit {
       data => console.log('success', data),
       error => console.error('error',error)
     )
+    this.toastr.success("Data Updated Successfully")
     console.log(this.editQuestion.value)
     this.route.navigate(['/question'])
+ 
+  }
+  onSelect(e:any, index:any){
+    // e.target.checked = ""
+    this.correctOptionSelected = true
+    // console.log(e.target.checked)
+    console.log(this.temp)
+    if(this.temp != -1  ){
+      this.editQuestion.value.options[this.temp].isCorrect = false
+    }
+   
+      this.editQuestion.value.options[index].isCorrect = true
+      this.temp = index
+   
+ 
   }
 }
 

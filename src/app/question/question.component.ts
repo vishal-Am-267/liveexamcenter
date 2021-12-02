@@ -1,5 +1,6 @@
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { ManageQuestionsService } from '../manage-questions.service';
 
 @Component({
@@ -29,9 +30,10 @@ export class QuestionComponent implements OnInit {
   selectedOptionsArray:any = []
   optionsArray: any = []
   page: number = 1
-  constructor(private _questions: ManageQuestionsService, private rd : Renderer2, private _elementRef : ElementRef) { }
+  constructor(private _questions: ManageQuestionsService,private toastr: ToastrService, private rd : Renderer2, private _elementRef : ElementRef) { }
 
   ngOnInit(): void {
+   
     this.isTopicSelected = false
     this.pageNumbers = 5
     
@@ -91,7 +93,12 @@ export class QuestionComponent implements OnInit {
    if(confirm("Are you sure you want to delete?")){
     this._questions.deleteQuestion(index).subscribe((data) =>{
       console.log(data)
-      this.questionListTopicWise()
+      if(this.isTopicSelected)
+      {
+        this.questionListTopicWise()
+      }
+      this.ngOnInit()
+      this.toastr.warning('Data Deleted Successfully!');
     })
    }
     

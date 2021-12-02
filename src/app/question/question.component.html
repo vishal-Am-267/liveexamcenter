@@ -62,30 +62,12 @@
             </div>
 
             <hr>
-<<<<<<< Updated upstream
-            <ng-template #default>
-                <div class="bg-image">
-                    <img class="img-fluid" src="/assets/images/default-question.png" alt="">
-                    <h5 class="default-heading">No Question Available</h5>
-                    <button class="default-btn">Add Question</button>
-                </div>
-            </ng-template>
-            <div *ngIf="selectedQuestionArray.length > 0; else default">
-                <div
-                    *ngFor="let question of selectedQuestionArray | paginate: { itemsPerPage: pageNumbers, currentPage: page } | filter: searchText  ;  let i = index">
-                    <div class="form-check me-2">
-                        <input class="form-check-input questionCheck" type="checkbox" value="" id="flexCheckDefault" #questionCheck [checked]="checkAll">
-                        <label class="form-check-label" for="flexCheckDefault">
-                           <div [innerHtml]="question.questionText  | safeHtml"></div>
-                        </label>
-=======
             <div *ngIf="!isTopicSelected || selectedTopic === null">
                 <ng-template #default>
                     <div class="bg-image">
                         <img class="img-fluid" src="/assets/images/default-question.png" alt="">
                         <h5 class="default-heading">No Question Available</h5>
                         <button class="default-btn">Add Question</button>
->>>>>>> Stashed changes
                     </div>
                 </ng-template>
                 <div *ngIf="allQuestionArray.length > 0; else default">
@@ -144,14 +126,16 @@
                         </div>
                         <div *ngFor="let item of question.options; let i = index">
                             <div class="radio ms-4">
-                                <label style="color: grey;">
+                                <label >
                                     <input *ngIf="question.type === 'MULTIPLE CHOICE'" #multipleChoice type="radio"
                                         [checked]="item.isCorrect" class="form-check-input" disabled>
     
                                     <input *ngIf="question.type === 'MULTIPLE RESPONSE'" #multipleResponse
                                         class="form-check-input mr-2" [checked]="item.isCorrect" type="checkbox"
-                                        [value]="item._id" id="flexCheckDefault" disabled>{{item.option}}
-                                        
+                                        [value]="item._id" id="flexCheckDefault" disabled>
+                                        <label  class="form-check-label" for="flexCheckDefault">
+                                            <div class="question-text"  [innerHtml]="item.option  | safeHtml: 'html'  "></div>
+                                          </label>
                                 </label>
     
                             </div>

@@ -22,7 +22,7 @@
 <div class="container mt-5">
     <div class="card">
         <div class="card-header pb-3">Update Question</div>
-        <form action=""  [formGroup]="editQuestion" (ngSubmit)="onSubmit()">
+        <form action="" [formGroup]="editQuestion" (ngSubmit)="onSubmit()">
             <div class="card-body">
 
 
@@ -36,53 +36,66 @@
                             <ng-option *ngFor="let subject of subjectArr" [value]="subject._id"> {{subject.name}}
                             </ng-option>
                         </ng-select>
-                        <span *ngIf="!editQuestion.get('subject')!.valid && editQuestion.get('subject')!.touched">please select one subject</span>
+                        <span class="validator text-danger"
+                            *ngIf="!editQuestion.get('subject')!.valid && editQuestion.get('subject')!.touched || submitted && editQuestion.value.subject == '' ">please
+                            select one subject</span>
                     </div>
-                  
-                   
+
+
 
 
                     <div class="col">
                         <label class="form-label">Select Topics</label>
-                        <ng-select  name="topic" formControlName="topic"  class="col-md-4 form-control" style="border: none;">
+                        <ng-select name="topic" formControlName="topic" class="col-md-4 form-control"
+                            style="border: none;">
                             <ng-option *ngFor="let topic of topicArr" [value]="topic._id">{{topic.name}}</ng-option>
                         </ng-select>
-                        <span *ngIf="!editQuestion.get('topic')!.valid && editQuestion.get('topic')!.touched">please select one subject</span>
+                        <span class="validator text-danger"
+                            *ngIf="!editQuestion.get('topic')!.valid && editQuestion.get('topic')!.touched || submitted && editQuestion.value.topic == '' ">please
+                            select one topic</span>
                     </div>
                 </div>
-                
-                
+
+
 
                 <div class="row">
                     <div class="col">
                         <label class="form-label">Question Type</label>
-                        <ng-select  class="col-md-4 form-control" formControlName="type" [(ngModel)]="type" name="type" style="border: none;">
+                        <ng-select class="col-md-4 form-control" formControlName="type" [(ngModel)]="type" name="type"
+                            style="border: none;">
                             <ng-option *ngFor="let type of questionType" [value]="type.name"> {{type.name}}</ng-option>
                         </ng-select>
-                        <span *ngIf="!editQuestion.get('type')!.valid && editQuestion.get('type')!.touched">please select one subject</span>
+                        <span class="validator text-danger"
+                            *ngIf="!editQuestion.get('type')!.valid && editQuestion.get('type')!.touched || submitted && editQuestion.value.type == '' ">please
+                            select one type</span>
                     </div>
 
                     <div class="col">
                         <label class="form-label">Difficulty Level</label>
-                        <ng-select  class="col-md-4 form-control" formControlName="diffLevel" style="border: none;">
+                        <ng-select class="col-md-4 form-control" formControlName="diffLevel" style="border: none;">
                             <ng-option *ngFor="let level of difficultyLevel" [value]="level.name">{{level.name}}
                             </ng-option>
                         </ng-select>
-                        <span *ngIf="!editQuestion.get('diffLevel')!.valid && editQuestion.get('diffLevel')!.touched">please select one subject</span>
+                        <span class="validator text-danger"
+                            *ngIf="!editQuestion.get('diffLevel')!.valid && editQuestion.get('diffLevel')!.touched || submitted && editQuestion.value.diffLevel == '' ">Select
+                            one difficulty level</span>
                     </div>
 
                     <div class="col">
                         <label class="form-label">Right Marks</label>
-                        <input type="text" class="form-control" formControlName = "rightMarks" placeholder="First name" aria-label="First name"
-                           >
-                           <span *ngIf="!editQuestion.get('rightMarks')!.valid && editQuestion.get('rightMarks')!.touched">please select one subject</span>
+                        <input type="text" class="form-control" formControlName="rightMarks" placeholder="First name"
+                            aria-label="First name">
+                        <span class="validator text-danger"
+                            *ngIf="!editQuestion.get('rightMarks')!.valid && editQuestion.get('rightMarks')!.touched || submitted && editQuestion.value.rightMarks == '' ">Right
+                            Marks is required</span>
                     </div>
 
                     <div class="col">
                         <label class="form-label">Wrong Marks</label>
-                        <input type="text" class="form-control" formControlName="wrongMarks" placeholder="First name" aria-label="First name"
-                            >
-                            <span *ngIf="!editQuestion.get('subject')!.valid && editQuestion.get('subject')!.touched">please select one subject</span>
+                        <input type="text" class="form-control" formControlName="wrongMarks" placeholder="First name"
+                            aria-label="First name">
+                        <span class="validator text-danger" *ngIf="editQuestion.get('subject')!.touched  ">Wrong Marks
+                            is required</span>
                     </div>
                 </div>
 
@@ -91,17 +104,20 @@
 
                 <div class="row">
                     <label class="form-label">Question</label>
-                    <div class="col" *ngIf="isSelected">
-                        <textarea class="form-control" formControlName="questionText" aria-label="With textarea" rows="6" ></textarea>
-                        <span *ngIf="!editQuestion.get('subject')!.valid && editQuestion.get('subject')!.touched">please select one subject</span>
+                    <div class="col">
+                        <textarea *ngIf="!hiddenItems" class="form-control" formControlName="questionText" aria-label="With textarea"
+                            rows="6"></textarea>
+
                     </div>
 
-                    <quill-editor *ngIf="!isSelected || richText" [styles]="{height : '200px'}" formControlName="questionText"
-                        (onEditorChanged)="changedEditor($event)"> 
-                        <span *ngIf="!editQuestion.get('subject')!.valid && editQuestion.get('subject')!.touched">please select one subject</span>
-                    </quill-editor>
-                    <a style="color: grey; cursor: pointer;" (click)="changeEditor()" #enable>Enable rich editor</a>
+                    <quill-editor *ngIf="hiddenItems " [styles]="{height : '200px'}"
+                        formControlName="questionText" (onEditorChanged)="changedEditor($event)">
 
+                    </quill-editor>
+                    <a style="color: grey; cursor: pointer;" (click)="changeEditor($event)" #enable>Enable rich editor</a>
+                    <span class="validator text-danger"
+                        *ngIf="!editQuestion.get('subject')!.valid && editQuestion.get('subject')!.touched || submitted && editQuestion.value.questionText == '' ">Question
+                        is required</span>
                 </div>
 
 
@@ -109,39 +125,42 @@
 
 
                 <label class="form-label">Options</label>
-                <div formArrayName = "options">
-                    <div  class="row" *ngFor="let option of formArr.controls; let i=index"   >
+                <div formArrayName="options">
+                    <div class="row" *ngFor="let option of formArr.controls; let i=index">
                         <div class="col input-group mb-3" [formGroupName]="i">
                             <div class="input-group-text ">
                                 <!--  -->
-                                    <input *ngIf="type === 'MULTIPLE RESPONSE'; else multipleChoice" class="form-check-input mx-2" name="isCorrect" formControlName="isCorrect"
-                                    type="checkbox" id="flexCheckDefault" > 
+                                <input *ngIf="type === 'MULTIPLE RESPONSE'; else multipleChoice"
+                                    class="form-check-input mx-2" name="isCorrect" formControlName="isCorrect"
+                                    type="checkbox" id="flexCheckDefault">
                                 <ng-template #multipleChoice>
-                                    <input  class="form-check-input me-1 px-2" value="true" [checked]="questionArray.options[i].isCorrect === true ? true : false" type="radio"  
-                                    >
+                                    <input class="form-check-input me-1 px-2" name="radio" value="true"
+                                        [checked]="questionArray.options[i].isCorrect === true ? true : false"
+                                        type="radio" (change)="onSelect($event, i)">
                                 </ng-template>
                                 Option {{i+1}}
                             </div>
-                            
-                            <textarea *ngIf = "!hiddenItems[i]"  class="form-control" formControlName="option" aria-label="With textarea" rows="4"
-                                name="option">
+
+                            <textarea *ngIf="!hiddenItems[i]" class="form-control" formControlName="option"
+                                aria-label="With textarea" rows="4" name="option">
                             </textarea>
-    
-                            <quill-editor *ngIf = "hiddenItems[i]"  formControlName="option" [styles]="{height : '80px'}"
+
+                            <quill-editor *ngIf="hiddenItems[i]" formControlName="option" [styles]="{height : '80px'}"
                                 (onEditorChanged)="changedEditor($event)">
                             </quill-editor>
-                      
+
                         </div>
-                       <div class="row" style="display: inline;">
-                        <a style="color: grey; cursor: pointer;" (click)="hiddenItems[i] = !hiddenItems[i]">Enable rich
-                            editor </a>
-                        <a style="color: grey; cursor: pointer;" (click)="removeOption(i)">Remove option</a>
-                       </div>
-                       
-    
+                        <div class="row" style="display: inline;">
+                            <a style="color: grey; cursor: pointer;" (click)="changeOptionEditor($event, i)">Enable
+                                rich
+                                editor </a>
+                            <a style="color: grey; cursor: pointer;" (click)="removeOption(i)">Remove option</a>
+                        </div>
+
+                        <span  class="validator text-danger" *ngIf="submitted && editQuestion.value.options[i].option ==  '' ">Option is required</span>
                     </div>
                 </div>
-          
+
 
 
                 <button class="btn  float-start mt-3" style="border: none; color: rgb(46, 170, 237); "
@@ -155,11 +174,10 @@
 
 
             <div class="card-footer mt-5">
-                <button type="submit" class="btn btn-primary float-start" 
-                   >
+                <button type="submit" class="btn btn-primary float-start">
 
                     Update Question</button>
-                <button class="btn  mx-4" >
+                <button class="btn  mx-4">
 
                     Cancel</button>
             </div>

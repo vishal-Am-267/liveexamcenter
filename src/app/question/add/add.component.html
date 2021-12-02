@@ -36,7 +36,7 @@
                             <ng-option *ngFor="let subject of subjectArr" [value]="subject._id"> {{subject.name}}
                             </ng-option>
                         </ng-select>
-                        <span *ngIf="!addMoreOption.get('subject')!.valid && addMoreOption.get('subject')!.touched">please select one subject</span>
+                        <span class="validator text-danger" *ngIf="!addMoreOption.get('subject')!.valid && addMoreOption.get('subject')!.touched || submitted && addMoreOption.value.subject == '' ">please select one subject</span>
                     </div>
 
 
@@ -47,7 +47,7 @@
                         <ng-select name="topic" formControlName="topic" placeholder="type to search topic..."  class="col-md-4 form-control" style="border: none;">
                             <ng-option *ngFor="let topic of topicArr" [value]="topic._id">{{topic.name}}</ng-option>
                         </ng-select>
-                        <span *ngIf="!addMoreOption.get('topic')!.valid && addMoreOption.get('topic')!.touched">please select one topic</span>
+                        <span class="validator text-danger" *ngIf="!addMoreOption.get('topic')!.valid && addMoreOption.get('topic')!.touched || submitted && addMoreOption.value.topic == '' ">please select one topic</span>
                     </div>
                 </div>
                 
@@ -60,7 +60,7 @@
                         <ng-select  class="col-md-4 form-control" formControlName="type" [(ngModel)]="type" name="type" style="border: none;">
                             <ng-option *ngFor="let type of questionType" [value]="type.name"> {{type.name}}</ng-option>
                         </ng-select>
-                        <span *ngIf="!addMoreOption.get('type')!.valid && addMoreOption.get('type')!.touched">please select one question type</span>
+                        <span class="validator text-danger" *ngIf="!addMoreOption.get('type')!.valid && addMoreOption.get('type')!.touched || submitted && addMoreOption.value.type == '' ">please select one question type</span>
                     </div>
 
                     <div class="col">
@@ -69,21 +69,21 @@
                             <ng-option *ngFor="let level of difficultyLevel" [value]="level.name" selected>{{level.name}}
                             </ng-option>
                         </ng-select>
-                        <span *ngIf="!addMoreOption.get('diffLevel')!.valid && addMoreOption.get('diffLevel')!.touched">please select one difficulty level</span>
+                        <span class="validator text-danger" *ngIf="!addMoreOption.get('diffLevel')!.valid && addMoreOption.get('diffLevel')!.touched || submitted && addMoreOption.value.diffLevel == '' ">please select one difficulty level</span>
                     </div>
 
                     <div class="col">
                         <label class="form-label">Right Marks</label>
                         <input type="number" class="form-control" formControlName = "rightMarks" 
                            >
-                           <span *ngIf="!addMoreOption.get('rightMarks')!.valid && addMoreOption.get('rightMarks')!.touched">Please enter a valid right mark</span>
+                           <span class="validator text-danger" *ngIf="  submitted && addMoreOption.value.rightMarks == null">Please enter a valid right mark</span>
                     </div>
 
                     <div class="col">
                         <label class="form-label">Wrong Marks</label>
                         <input type="number" class="form-control" formControlName="wrongMarks" 
                             >
-                            <span *ngIf="!addMoreOption.get('wrongMarks')!.valid && addMoreOption.get('wrongMarks')!.touched">Please enter a valid wrong mark</span>
+                            <span class="validator text-danger" *ngIf="submitted && addMoreOption.value.wrongMarks == null">Please enter a valid wrong mark</span>
                     </div>
                 </div>
 
@@ -102,7 +102,7 @@
                         <!-- <span *ngIf="!addMoreOption.get('subject')!.valid && addMoreOption.get('subject')!.touched">please select one subject</span> -->
                     </quill-editor>
                     <a style="color: grey; cursor: pointer;" (click)="changeEditor()" #enable>Enable rich editor</a>
-                    <span *ngIf="!addMoreOption.get('questionText')!.valid && addMoreOption.get('questionText')!.touched">Question is required</span>
+                    <span class="validator text-danger" *ngIf="!addMoreOption.get('questionText')!.valid && addMoreOption.get('questionText')!.touched || submitted && addMoreOption.value.questionText == '' ">Question is required</span>
                 </div>
 
 
@@ -128,33 +128,42 @@
                                 name="option">
                             </textarea>
     
-                            <quill-editor *ngIf = "hiddenItems[i]"  formControlName="option" [styles]="{height : '80px'}"
+                            <quill-editor *ngIf = "hiddenItems[i]"   formControlName="option" [styles]="{height : '80px'}"
                                 (onEditorChanged)="changedEditor($event)">
                             </quill-editor>
                             
                         </div>
                         <div class="row" style="display: inline;">
-                            <a  style="color: grey;  cursor: pointer;" [id]="i + 1" (click)="hiddenItems[i] = !hiddenItems[i]">Enable rich
-                                editor </a>
+                            
+                            <span  style="color: grey;  cursor: pointer;"  [id]="i + 1" (click)="changeOptionEditor(i,$event)" >Enable rich
+                                editor 
+                            
+                            </span>
                                 
                             <a  style="color: grey; cursor: pointer;" (click)="removeOption(i)">Remove option</a>
                         </div>
-                        
-    
+                        <span  class="validator text-danger" *ngIf="submitted && addMoreOption.value.options[i].option ==  '' ">Option is required</span>
+                        <span  class="col validator text-danger" *ngIf=" addMoreOption.value.options.length < 2 ">Add minimum 2 option</span>
                     </div>
-
+                    
                 </div>
           
 
-
-                <button class="btn  float-start mt-3" style="border: none; color: rgb(46, 170, 237); "
+                <div class="row float-start" >
+                    <button class="btn  float-start mt-3" style="border: none; color: rgb(46, 170, 237); "
                     (click)="addOption()">
                     <span><i class='bx bx-plus-medical' style='color:rgb(46, 170, 237);'></i></span>
                     Add Option</button>
+                </div>
+               
+
+            <div class="row float-start" >
+                
+            </div>
 
             </div>
 
-
+            
 
 
             <div class="card-footer mt-5">
@@ -162,7 +171,7 @@
                    >
 
                     Save Question</button>
-                <button class="btn  mx-4" [routerLink]="['/question/add']" routerLinkActive="router-link-active">
+                <button class="btn  mx-4"  routerLinkActive="router-link-active">
 
                     Cancel</button>
             </div>

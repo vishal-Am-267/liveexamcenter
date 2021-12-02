@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ManageQuestionsService {
 
-  header = { 'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTljZTRhOGU1ODY4NTE0NjEwYzhkYTUiLCJfYWN0aXZlT3JnIjoiNjE5Y2U0YThlNTg2ODUxNDYxMGM4ZGE3IiwiaWF0IjoxNjM4MzMzNjUyLCJleHAiOjE2MzgzNzY4NTJ9.GJeHhyGl3vRDQv_VABr1CDxwXfZM1HmtB_lSFr0B7wE' }
+  header = { 'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTljZTRhOGU1ODY4NTE0NjEwYzhkYTUiLCJfYWN0aXZlT3JnIjoiNjE5Y2U0YThlNTg2ODUxNDYxMGM4ZGE3IiwiaWF0IjoxNjM4NDE5MzU1LCJleHAiOjE2Mzg0NjI1NTV9.bEdtJf8Y7xUdjmSej81YLmd04Y8E-q0vH4kI_o73hXQ' }
 
   subject_url = 'http://admin.liveexamcenter.in/api/subjects?term='
   topic_url = 'https://admin.liveexamcenter.in/api/topics/subject'
@@ -13,7 +13,8 @@ export class ManageQuestionsService {
   
 
   allTopic_url = 'http://admin.liveexamcenter.in/api/topics?page=1&limit=9007199254740991&term='
-  topicWiseQuestion_url = 'http://admin.liveexamcenter.in/api/questions?page=1&limit=20&term=&topic='
+  topicWiseQuestion_url = 'http://admin.liveexamcenter.in/api/questions?page=1&limit=40&term=&topic='
+  allQuestion_url = 'http://admin.liveexamcenter.in/api/questions?page=1&limit=9007199254740991&term=&topic='
   question_url = "http://admin.liveexamcenter.in/api/questions"
   constructor(private _http: HttpClient) { }
 
@@ -60,7 +61,7 @@ export class ManageQuestionsService {
 
   getAllQuestions(){
     const headers = this.header
-    return this._http.get(this.topicWiseQuestion_url ,{headers})
+    return this._http.get(this.allQuestion_url ,{headers})
   }
 
 }
