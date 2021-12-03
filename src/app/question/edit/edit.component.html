@@ -105,12 +105,12 @@
                 <div class="row">
                     <label class="form-label">Question</label>
                     <div class="col">
-                        <textarea *ngIf="!hiddenItems" class="form-control" formControlName="questionText" aria-label="With textarea"
+                        <textarea *ngIf="!isOpenRichText" class="form-control" formControlName="questionText" aria-label="With textarea"
                             rows="6"></textarea>
 
                     </div>
 
-                    <quill-editor *ngIf="hiddenItems " [styles]="{height : '200px'}"
+                    <quill-editor *ngIf="isOpenRichText " [styles]="{height : '200px'}"
                         formControlName="questionText" (onEditorChanged)="changedEditor($event)">
 
                     </quill-editor>
@@ -120,27 +120,47 @@
                         is required</span>
                 </div>
 
-
-
+               
 
 
                 <label class="form-label">Options</label>
                 <div formArrayName="options">
                     <div class="row" *ngFor="let option of formArr.controls; let i=index">
                         <div class="col input-group mb-3" [formGroupName]="i">
-                            <div class="input-group-text ">
+                            <div *ngIf="!isClicked" class="input-group-text ">
                                 <!--  -->
+                             
+
                                 <input *ngIf="type === 'MULTIPLE RESPONSE'; else multipleChoice"
                                     class="form-check-input mx-2" name="isCorrect" formControlName="isCorrect"
                                     type="checkbox" id="flexCheckDefault">
                                 <ng-template #multipleChoice>
                                     <input class="form-check-input me-1 px-2" name="radio" value="true"
-                                        [checked]="questionArray.options[i].isCorrect === true ? true : false"
+                                       [checked] = "this.questionArray.options[i].isCorrect"
                                         type="radio" (change)="onSelect($event, i)">
                                 </ng-template>
                                 Option {{i+1}}
                             </div>
 
+
+
+                            <div *ngIf="isClicked" class="input-group-text ">
+                                <!--  -->
+                             
+
+                                <input *ngIf="type === 'MULTIPLE RESPONSE'; else multipleChoice"
+                                    class="form-check-input mx-2" name="isCorrect" formControlName="isCorrect"
+                                    type="checkbox" id="flexCheckDefault">
+                                <ng-template #multipleChoice>
+                                    <input class="form-check-input me-1 px-2" name="radio" value="true"
+                                       
+                                        type="radio" (change)="onSelect($event, i)">
+                                </ng-template>
+                                Option {{i+1}}
+                            </div>
+
+
+                          
                             <textarea *ngIf="!hiddenItems[i]" class="form-control" formControlName="option"
                                 aria-label="With textarea" rows="4" name="option">
                             </textarea>
@@ -158,23 +178,30 @@
                         </div>
 
                         <span  class="validator text-danger" *ngIf="submitted && editQuestion.value.options[i].option ==  '' ">Option is required</span>
+
+
+                        
                     </div>
+                    <div class="row">
+                        <button type="button" class="btn  float-start mt-3" style="border: none; color: rgb(46, 170, 237); "
+                        (click)="addOption()">
+                        <span><i class='bx bx-plus-medical' style='color:rgb(46, 170, 237);'></i></span>
+                        Add Option</button>
+                    </div>
+                    
                 </div>
 
 
 
-                <button class="btn  float-start mt-3" style="border: none; color: rgb(46, 170, 237); "
-                    (click)="addOption()">
-                    <span><i class='bx bx-plus-medical' style='color:rgb(46, 170, 237);'></i></span>
-                    Add Option</button>
+                
 
             </div>
 
+           
 
 
-
-            <div class="card-footer mt-5">
-                <button type="submit" class="btn btn-primary float-start">
+            <div class="card-footer ">
+                <button type="submit" class="btn btn-primary">
 
                     Update Question</button>
                 <button class="btn  mx-4">

@@ -44,7 +44,7 @@
 
                     <div class="col">
                         <label class="form-label">Select Topics</label>
-                        <ng-select name="topic" formControlName="topic" placeholder="type to search topic..."  class="col-md-4 form-control" style="border: none;">
+                        <ng-select name="topic" [(ngModel)]="topic" formControlName="topic" placeholder="type to search topic..."  class="col-md-4 form-control" style="border: none;">
                             <ng-option *ngFor="let topic of topicArr" [value]="topic._id">{{topic.name}}</ng-option>
                         </ng-select>
                         <span class="validator text-danger" *ngIf="!addMoreOption.get('topic')!.valid && addMoreOption.get('topic')!.touched || submitted && addMoreOption.value.topic == '' ">please select one topic</span>
@@ -65,7 +65,7 @@
 
                     <div class="col">
                         <label class="form-label">Difficulty Level</label>
-                        <ng-select  class="col-md-4 form-control" formControlName="diffLevel" style="border: none;">
+                        <ng-select  class="col-md-4 form-control" formControlName="diffLevel" style="border: none;" [(ngModel)]="diffLevel" name="diffLevel">
                             <ng-option *ngFor="let level of difficultyLevel" [value]="level.name" selected>{{level.name}}
                             </ng-option>
                         </ng-select>
@@ -74,14 +74,14 @@
 
                     <div class="col">
                         <label class="form-label">Right Marks</label>
-                        <input type="number" class="form-control" formControlName = "rightMarks" 
+                        <input type="number" class="form-control" formControlName = "rightMarks"  value=1 [(ngModel)]="rightMarks" name="rightmarks"
                            >
                            <span class="validator text-danger" *ngIf="  submitted && addMoreOption.value.rightMarks == null">Please enter a valid right mark</span>
                     </div>
 
                     <div class="col">
                         <label class="form-label">Wrong Marks</label>
-                        <input type="number" class="form-control" formControlName="wrongMarks" 
+                        <input type="number" class="form-control" formControlName="wrongMarks" value=0 [(ngModel)]="wrongMarks" name="rightmarks"
                             >
                             <span class="validator text-danger" *ngIf="submitted && addMoreOption.value.wrongMarks == null">Please enter a valid wrong mark</span>
                     </div>
@@ -144,11 +144,12 @@
                         </div>
                         <span  class="validator text-danger" *ngIf="submitted && addMoreOption.value.options[i].option ==  '' ">Option is required</span>
                         <span  class="col validator text-danger" *ngIf=" addMoreOption.value.options.length < 2 ">Add minimum 2 option</span>
+                        
                     </div>
                     
                 </div>
           
-
+                <span  class="validator text-danger" *ngIf="submitted && !correctOptionSelected">Please select one option</span>
                 <div class="row float-start" >
                     <button class="btn  float-start mt-3" style="border: none; color: rgb(46, 170, 237); "
                     (click)="addOption()">

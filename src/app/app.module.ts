@@ -10,25 +10,25 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ManageQuestionsService } from './manage-questions.service';
 import { HttpClientModule } from '@angular/common/http';
 import { QuillModule } from 'ngx-quill';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import {NgxPaginationModule} from 'ngx-pagination';
 import { ToastrModule } from 'ngx-toastr';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { PipesModule } from './pipes/pipes.module';
-import { AllQuestionsComponent } from './question/all-questions/all-questions.component';
-import { TopicWiseQuestionsComponent } from './question/topic-wise-questions/topic-wise-questions.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     QuestionComponent,
     AddComponent,
     EditComponent,
-    AllQuestionsComponent,
-    TopicWiseQuestionsComponent,
+  
    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     NgSelectModule,
     FormsModule,
     HttpClientModule,
@@ -37,6 +37,7 @@ import { TopicWiseQuestionsComponent } from './question/topic-wise-questions/top
     ToastrModule.forRoot(),
     NgxPaginationModule,
     ReactiveFormsModule,
+  
     PipesModule
   ],
   providers: [ManageQuestionsService,],

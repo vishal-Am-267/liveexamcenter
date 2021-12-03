@@ -18,84 +18,86 @@ export class QuestionComponent implements OnInit {
   searchText = '';
   allQuestionResult:any =[];
   allQuestionArray:any =[];
-  isTopicSelected = false
+  isTopicSelected = false;
   selectedOption = true;
-  selectedTopic!: number
-  pageNumbers!: number
-  topicType: any = []
-  total = ""
-  topicArray: any = []
-  questionResult: any = []
-  selectedQuestionArray: any = []
-  selectedOptionsArray:any = []
-  optionsArray: any = []
-  page: number = 1
+  selectedTopic!: number;
+  pageNumbers!: number;
+  topicType: any = [];
+  total = "";
+  topicArray: any = [];
+  questionResult: any = [];
+  selectedQuestionArray: any = [];
+  selectedOptionsArray:any = [];
+  optionsArray: any = [];
+  page: number = 1;
   constructor(private _questions: ManageQuestionsService,private toastr: ToastrService, private rd : Renderer2, private _elementRef : ElementRef) { }
 
   ngOnInit(): void {
    
-    this.isTopicSelected = false
-    this.pageNumbers = 5
-    
+    this.isTopicSelected = false;
+    this.pageNumbers = 5;
     this._questions.getAllQuestions().subscribe((data)=>{
-      this.allQuestionResult = data
-      this.allQuestionArray = this.allQuestionResult.result
-      console.log(this.allQuestionArray)
-      this.total = this.allQuestionArray.length
-      console.log(this.total)
+      this.allQuestionResult = data;
+      this.allQuestionArray = this.allQuestionResult.result;
+      console.log(this.allQuestionArray);
+      this.total = this.allQuestionArray.length;
+      console.log(this.total);
     })
 
     this._questions.getAllTopic().subscribe((result) => {
-      this.topicType = result
-      this.topicArray = this.topicType.result
+      this.topicType = result;
+      this.topicArray = this.topicType.result;
       
     })
   }
 
   defaultButton()
   {
-    console.log(this.multipleChoice.nativeElement)
+    console.log(this.multipleChoice.nativeElement);
   }
 
   questionListTopicWise() {
-    this.isTopicSelected = true
-    this.pageNumbers=5
-    this.optionsArray = []
+    this.isTopicSelected = true;
+    this.pageNumbers=5;
+    this.optionsArray = [];
     this._questions.getQuestionTopicWise(this.selectedTopic).subscribe((result) => {
-      this.questionResult = result
-      this.selectedQuestionArray = this.questionResult.result
-      this.total = this.selectedQuestionArray.length
-      console.log(this.total)
-    
-      console.log(this.selectedQuestionArray)
+      this.questionResult = result;
+      this.selectedQuestionArray = this.questionResult.result;
+      this.total = this.selectedQuestionArray.length;
+      // console.log(this.total)
+      for(let i = 0 ;i<this.selectedQuestionArray.length; i++){
+       console.log(this.selectedQuestionArray[i].questionText);
+       console.log(/<(?=.*? .*?\/ ?>|br|hr|input|!--|wbr)[a-z]+.*?>|<([a-z]+).*?<\/\1>/i.test(this.selectedQuestionArray[i].questionText));
+      }
+      console.log(this.selectedQuestionArray);
     })  
   }
   pagenumbers(e:any){
     
-    this.pageNumbers = e.target.value
-    console.log(this.pageNumbers)
+    this.pageNumbers = e.target.value;
+    console.log(this.pageNumbers);
   }
 
   checkAllOptions(e:any) {
   //  console.log(this.input.nativeElement.innerHtml)
     // if(this.isCheckSelected === false){
       if(e.target.checked === true){
-      this.checkAll = e.target.checked
-      console.log(this.checkAll)
+      this.checkAll = e.target.checked;
+      console.log(this.checkAll);
     }
     else{
       e.target.checked = false
-      this.checkAll = e.target.checked
-      console.log(this.checkAll)
+      this.checkAll = e.target.checked;
+      console.log(this.checkAll);
     }
   }
   onDelete(index:any){
    if(confirm("Are you sure you want to delete?")){
     this._questions.deleteQuestion(index).subscribe((data) =>{
-      console.log(data)
+      console.log(data);
       if(this.isTopicSelected)
       {
-        this.questionListTopicWise()
+        this.questionListTopicWise();
       }
       this.ngOnInit()
       this.toastr.warning('Data Deleted Successfully!');
