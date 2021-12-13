@@ -4,3 +4,18 @@
     /* color: red; */
     font-weight: lighter;
 }
+.marks{
+    margin-top: 5px;
+}
+
+.subject{
+    padding-left: 15px;
+}
+
+.questiontype{
+    margin-right: 5px;
+}
+
+.topic{
+    margin-left: 5px;
+}

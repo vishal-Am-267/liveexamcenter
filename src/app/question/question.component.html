@@ -1,23 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="/assets/images/logo.svg" alt="" width="100" height="24">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" [routerLink]="['/question']"
-                        routerLinkActive="router-link-active" style="color: moccasin;">Question</a>
-                </li>
-
-            </ul>
-        </div>
-    </div>
-</nav>
+<app-header></app-header>
 
 <div class="container">
     <div class="mt-4">
@@ -40,7 +21,7 @@
                             Select
                         </label>
                     </div>
-                    <select class="me-2" style="display: inline;" (change)="pagenumbers($event)">
+                    <select class="ml-2 mx-2"  (change)="pagenumbers($event)">
 
                         <option [value]="5" selected>5</option>
                         <option [value]="10">10</option>
@@ -52,7 +33,7 @@
 
                 </div>
                 <div class="col float-end" style="display: flex;">
-                    <input class="form-control mt-3 " type="search" [(ngModel)]="searchText" name="searchText" placeholder="Search" aria-label="Search">
+                    <input class="form-control search me-3 " type="search" [(ngModel)]="searchText" name="searchText" placeholder="Search" aria-label="Search">
 
                     <ng-select [(ngModel)]="selectedTopic" name="selectedTopic" class="form-control mt-2"
                         style="border: none;" (change)="questionListTopicWise()">
@@ -112,7 +93,7 @@
                     <div class="bg-image">
                         <img class="img-fluid" src="/assets/images/default-question.png" alt="">
                         <h5 class="default-heading">No Question Available</h5>
-                        <button class="default-btn">Add Question</button>
+                        <button class="default-btn" [routerLink]="['/add']"  >Add Question</button>
                     </div>
                 </ng-template>
                 <div *ngIf="selectedQuestionArray.length > 0; else default">

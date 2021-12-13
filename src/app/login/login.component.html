@@ -1,0 +1,74 @@
+<app-header></app-header>
+
+<div style="text-align: center; margin-top: 30px;"><img src="../assets/images/am_logo.svg" alt=""></div>
+
+<section class="vh-30">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-xl-10">
+                <div class="card" style="border-radius: 1rem;">
+                    <div class="row g-0">
+                        <div class="col-md-6 col-lg-5 d-none d-md-block" style="background-color: rgb(0, 162, 255);">
+                            <img src="../assets/images/login_bg.png" alt="login form" class="img-fluid"
+                                style="border-radius: 1rem 0 0 1rem;" />
+                        </div>
+                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                            <div class="card-body p-4 p-lg-5 text-black">
+
+                                <form [formGroup]="loginForm" (keydown.enter)="onSubmit()">
+
+
+
+                                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Login into your account
+                                    </h5>
+
+                                    <div class="form-outline mb-4">
+                                        <input type="email" id="email" formControlName="email"
+                                            class="form-control form-control-lg" required email />
+                                        <label class="form-label">Email address</label>
+										<span class="d-flex validator text-danger"
+										*ngIf="submitted && loginForm.value.email == '' ">Email is required</span>
+										
+                                    </div>
+                                    
+
+                                    <div class="form-outline mb-4">
+                                        <input type="password" #password formControlName="password"
+                                            class="form-control form-control-lg" required />
+                                        <span><i class='eye  float-end'
+                                                [ngClass]="passwordTypeText == false ? 'bx bxs-hide' : 'bx bx-show-alt'"
+                                                (click)="changeType($event)"></i></span>
+                                        <label class="form-label">Password</label>
+                                        <span  class="d-flex validator text-danger"
+                                            *ngIf="submitted && loginForm.value.password == '' ">password is required</span>
+                                    </div>
+                                    
+                                    <!-- 'bx bxs-hide': passwordTypeText  -->
+                                    <div  class="col" >
+                                        <button type="submit" class="btn btn-primary btn-lg " type="button"
+                                            (click)=onSubmit()>Login</button>
+										<span class="float-end">
+											<!-- <h5>or login with</h5> -->
+											<i class='bx bxl-google ' style='color:#23c9e4; font-size: 40px;'  (click)="signInWithGoogle()"></i>
+										</span>
+										</div>
+
+									
+
+									
+							
+									<!-- <button class="btn btn-info" (click)="signInWithGoogle()">sign in with google</button> -->
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+

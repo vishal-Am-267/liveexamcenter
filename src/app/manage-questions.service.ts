@@ -5,13 +5,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ManageQuestionsService {
 
-  header = { 'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTljZTRhOGU1ODY4NTE0NjEwYzhkYTUiLCJfYWN0aXZlT3JnIjoiNjE5Y2U0YThlNTg2ODUxNDYxMGM4ZGE3IiwiaWF0IjoxNjM4NTA2MjM0LCJleHAiOjE2Mzg1NDk0MzR9._jRCCooOHTsgrGt32aG2ar6OjFekbcL_bARqbqRjAOo' }
+  header = { 'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTljZTRhOGU1ODY4NTE0NjEwYzhkYTUiLCJfYWN0aXZlT3JnIjoiNjE5Y2U0YThlNTg2ODUxNDYxMGM4ZGE3IiwiaWF0IjoxNjM5MzcwNzM3LCJleHAiOjE2Mzk0MTM5Mzd9.qdIqxnTRTVnJN8tVcrNAKoAp9IcaDqO4NC1BVNeHtP0' }
 
   subject_url = 'http://admin.liveexamcenter.in/api/subjects?term='
   topic_url = 'https://admin.liveexamcenter.in/api/topics/subject'
   common_url ='http://admin.liveexamcenter.in/api/questions'
-  
-
+  login_url ='http://admin.liveexamcenter.in/api/auth/login'
+  socialLogin_url = 'http://admin.liveexamcenter.in/api/auth/google'
   allTopic_url = 'http://admin.liveexamcenter.in/api/topics?page=1&limit=9007199254740991&term='
   topicWiseQuestion_url = 'http://admin.liveexamcenter.in/api/questions?page=1&limit=40&term=&topic='
   allQuestion_url = 'http://admin.liveexamcenter.in/api/questions?page=1&limit=9007199254740991&term=&topic='
@@ -63,5 +63,15 @@ export class ManageQuestionsService {
     const headers = this.header
     return this._http.get(this.allQuestion_url ,{headers})
   }
+  login(data : any){
+    const headers = this.header
+    return this._http.post<any>(this.login_url, data)
+  }
+
+  loginWithGoogle(data: any){
+    const headers = this.header
+    return this._http.post<any>(this.socialLogin_url, data)
+  }
+  
 
 }

@@ -166,7 +166,9 @@ export class EditComponent implements OnInit {
   }
 
   removeOption(index: any) {
+   
     this.formArr.removeAt(index);
+    
   }
 
 

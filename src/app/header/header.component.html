@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="/assets/images/logo.svg" alt="" width="100" height="24">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li *ngIf="userLoggedIn || googleLoggedIn" class="nav-item">
+                    <a class="nav-link active" aria-current="page" [routerLink]="['/question']"
+                        routerLinkActive="router-link-active" style="color: moccasin;">Question</a>
+                </li>
+
+                <!-- <li *ngIf="!userLoggedIn" class="nav-item float-end">
+                    <a class="nav-link active" aria-current="page" [routerLink]="['/login']"
+                        routerLinkActive="router-link-active" style="color: moccasin;">Login</a>
+                </li> -->
+                <span class="float-end me-2 d-flex">
+                    <li *ngIf="userLoggedIn" class="nav-item">
+                        <a class="nav-link  float-end" aria-current="page"  style="color: moccasin; cursor: pointer;" (click)=logout()>Logout</a>
+                    </li>
+
+                    <li *ngIf="googleLoggedIn" class="nav-item">
+                        <a class="nav-link  float-end" aria-current="page"  style="color: moccasin; cursor: pointer;" (click)=signOut()>Signout</a>
+                    </li>
+                </span>
+                
+            </ul>
+        </div>
+    </div>
+</nav>

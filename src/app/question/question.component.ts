@@ -33,7 +33,7 @@ export class QuestionComponent implements OnInit {
   constructor(private _questions: ManageQuestionsService,private toastr: ToastrService, private rd : Renderer2, private _elementRef : ElementRef) { }
 
   ngOnInit(): void {
-   
+  
     this.isTopicSelected = false;
     this.pageNumbers = 5;
     this._questions.getAllQuestions().subscribe((data)=>{
@@ -42,7 +42,8 @@ export class QuestionComponent implements OnInit {
       console.log(this.allQuestionArray);
       this.total = this.allQuestionArray.length;
       console.log(this.total);
-    })
+    },
+    )
 
     this._questions.getAllTopic().subscribe((result) => {
       this.topicType = result;

@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { ToastrService } from 'ngx-toastr';
 import { ManageQuestionsService } from 'src/app/manage-questions.service';
+import { options } from 'src/app/options';
 
 
 
@@ -23,10 +24,12 @@ export class AddComponent implements OnInit {
 
   }
   rowClicked: any;
+  hideNavBar = false
+  isDuplicate = false
   wrongMarks = 0;
   rightMarks = 1;
   diffLevel = "Easy";
-  
+  optionValue:any = []
   topic ="";
   selectedoption = true;
   submitted = false;
@@ -67,6 +70,7 @@ export class AddComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.hideNavBar = false;
     this.submitted = false;
     this.correctOptionSelected = false;
     this.addMoreOption = this._fb.group({
@@ -95,7 +99,7 @@ export class AddComponent implements OnInit {
 
   initOptionRows() {
     return this._fb.group({
-      option: ['', Validators.required],
+      option: ['',[ Validators.required]],
       isCorrect: [false, Validators.required],
       richTextEditor: [false, Validators.required]
     });
@@ -149,7 +153,7 @@ export class AddComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     console.log(this.addMoreOption.value);
-    if(this.addMoreOption.invalid || !this.correctOptionSelected)
+    if(this.addMoreOption.invalid || !this.correctOptionSelected || this.isDuplicate)
     {
       return
     }
@@ -172,9 +176,14 @@ export class AddComponent implements OnInit {
     this.topic = this.addMoreOption.value.topic;
     this.subject = this.addMoreOption.value.subject;
     this.toastr.success('Data addded Successfully!');
-     this.formArr.reset();
-     this.addMoreOption.patchValue({questionText : ""});
-
+   
+    this.formArr.clear()
+    for(let i = 0 ; i< 4 ; i++){
+      this.formArr.push(this.initOptionRows());
+    }
+    this.addMoreOption.patchValue({questionText : ""});
+    this.submitted = false;
+    this.correctOptionSelected = false;
   }
   onSelect(e: any, index: any) {
     // e.target.checked = ""
@@ -188,5 +197,41 @@ export class AddComponent implements OnInit {
     this.temp = index;
 
 
+  }
+
+  duplicateOptionValidator(control: FormControl){
+    let option = control.value;
+    if (option && this.addMoreOption.value.options.includes(option)) {
+      return {
+        duplicateOption: {
+          option: option
+        }
+      }
+    }
+    return null;
+  }
+
+  duplicateCheck(index:any, e: any){
+    this.optionValue.push(e.target.value)
+    console.log(this.optionValue)
+    // let findDuplicates = (arr: any[]) => arr.filter((item, index) => arr.indexOf(item) != index)
+    // let optionArray = findDuplicates(this.optionValue)
+    // for(let i = 0; i<optionArray.length;i++)
+    // {
+      
+    //   if(e.target.value === optionArray[i]){
+    //     this.isDuplicate = true
+    //   }
+    //   else{
+    //     console.log("no")
+    //   }
+    // }
+
+   
+  }
+
+  hideShowNavBar(e:any){
+    
+    this.hideNavBar = !this.hideNavBar
   }
 }
